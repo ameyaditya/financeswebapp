@@ -48,8 +48,8 @@ function alert($msg) {
 
 		<div class="row">
 			<div class="col-md-3 events">
-				<a href="addResident.php">
-					<h1 class="display-4"></h1>
+				<a href="amount.php">
+					<h1 class="display-4">Amount and Denominations</h1>
 				</a>
 			</div>
 			<div class="col-md-3 events">

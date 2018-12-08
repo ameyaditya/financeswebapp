@@ -9,8 +9,9 @@
 	$amount = $_POST['amount'];
 	$payment = $_POST['payment'];
 	$mode = $_POST['mode'];
+	$month = $_POST['month'];
 
-	$s = "INSERT INTO income_details(Source, Description, FlatNo, Amount, Date, Mode) values ('$source', '$description', '$flatno', '$amount', '$payment', '$mode')";
+	$s = "INSERT INTO income_details(Source, Description, FlatNo, Amount, PaidFor, Date, Mode) values ('$source', '$description', '$flatno', '$amount', '$month', '$payment', '$mode')";
 	mysqli_query($con, $s);
 	header("location: homepage.php");
 ?>
