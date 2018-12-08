@@ -8,7 +8,7 @@
 <body>
 	<div class="jumbotron-fluid">
 		<div class="container forms">
-			<form action="income.php" method="post">
+			<form action="inc.php" method="post">
 				<h1 class="display-4 text-center heading-1">Income Details</h1>
 				<div class="form-group">
 					<label for="source">Source</label>

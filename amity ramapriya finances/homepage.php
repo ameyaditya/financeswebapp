@@ -15,8 +15,6 @@ function alert($msg) {
 	<title>Homepage</title>
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script type="text/javascript" src="logout.js"></script>	
 </head>
 <body>
 	<nav class="navbar navbar-light bg-light justify-content-between">
@@ -37,12 +35,38 @@ function alert($msg) {
 				</a>
 			</div>
 			<div class="col-md-3 events">
-				
+				<a href="addexpense.php">
+					<h1 class="display-4">Add Expenses</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="viewres.php">
+					<h1 class="display-4">View Residents</h1>
+				</a>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3 events">
+				<a href="addResident.php">
+					<h1 class="display-4"></h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addinc.php">
+					<h1 class="display-4"></h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addexpense.php">
+					<h1 class="display-4"></h1>
+				</a>
 			</div>
 			<div class="col-md-3 events">
 				
 			</div>
 		</div>
+
 	</div>
 </div>
 </body>
