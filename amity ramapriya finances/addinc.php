@@ -30,23 +30,6 @@
 					<input type="number" name="amount" id="amount" value="4000" class="form-control" required>
 				</div>
 				<div class="form-group">
-					<label for="month">Paid for</label>
-					<select class="custom-select" id="month" name="month" class="form-control">
-						<option selected>January</option>
-						<option>February</option>
-						<option>March</option>
-						<option>April</option>
-						<option>May</option>
-						<option>June</option>
-						<option>July</option>
-						<option>August</option>
-						<option>September</option>
-						<option>October</option>
-						<option>November</option>
-						<option>December</option>
-					</select>
-				</div>
-				<div class="form-group">
 					<label for="payment">Payment Date</label>
 					<input type="date" name="payment" id="payment" class="form-control" required>
 				</div>
