@@ -21,7 +21,6 @@ function alert($msg) {
   <a class="navbar-brand">Amity Ramapriya Finances</a>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="window.location='logout.php'">Logout</button>
 </nav>
-<div class="jumbotron-fluid">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-3 events">
@@ -49,7 +48,7 @@ function alert($msg) {
 		<div class="row">
 			<div class="col-md-3 events">
 				<a href="amount.php">
-					<h1 class="display-4">Amount and Denominations</h1>
+					<h1 class="display-4">Amount and Denomination</h1>
 				</a>
 			</div>
 			<div class="col-md-3 events">
@@ -63,11 +62,11 @@ function alert($msg) {
 				</a>
 			</div>
 			<div class="col-md-3 events">
-				
+				<a href="addexpense.php">
+					<h1 class="display-4"></h1>
+				</a>
 			</div>
 		</div>
-
 	</div>
-</div>
 </body>
 </html>

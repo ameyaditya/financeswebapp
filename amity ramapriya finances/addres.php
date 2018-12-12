@@ -7,6 +7,12 @@
 	$year = date('Y');
 	$con = mysqli_connect('localhost', 'root', 'achar');
 	mysqli_select_db($con, 'amity ramapriya details');
+	$checktable = "SHOW TABLES LIKE 'resident_payment_".$year."'";
+	if(mysqli_num_rows(mysqli_query($con, $checktable)) != 1)
+	{
+		$createtab = "CREATE TABLE resident_income_".$year." ( FlatNo VARCHAR(3) PRIMARY KEY, Current INT(2) DEFAULT 0, `1` INT(5) DEFAULT 0, `2` INT(5) DEFAULT 0, `3` INT(5) DEFAULT 0, `4` INT(5) DEFAULT 0, `5` INT(5) DEFAULT 0, `6` INT(5) DEFAULT 0, `7` INT(5) DEFAULT 0, `8` INT(5) DEFAULT 0, `9` INT(5) DEFAULT 0, `10` INT(5) DEFAULT 0, `11` INT(5) DEFAULT 0, `12` INT(5) DEFAULT 0) ";
+		mysqli_query($con, $createtab);
+	}
 	$s = "SELECT *from resident_details where flatNo = '$flatno'";
 	$result = mysqli_query($con, $s);
 	$num = mysqli_num_rows($result);
