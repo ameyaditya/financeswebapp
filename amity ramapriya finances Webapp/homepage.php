@@ -7,6 +7,7 @@ function alert($msg) {
 		alert("Successfully Registered user");
 		unset($_SESSION['registered_res']);
 	}
+	unset($_SESSION['limit']);
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +53,8 @@ function alert($msg) {
 				</a>
 			</div>
 			<div class="col-md-3 events">
-				<a href="addinc.php">
-					<h1 class="display-4"></h1>
+				<a href="viewinc.php">
+					<h1 class="display-4">View income</h1>
 				</a>
 			</div>
 			<div class="col-md-3 events">

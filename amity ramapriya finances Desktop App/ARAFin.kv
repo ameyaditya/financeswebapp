@@ -1,0 +1,157 @@
+#:kivy 1.10.0
+<CustomButton@Button>:
+    font_size: 15
+<FormLabel@Label>:
+    text_size: self.size
+    font_size: 20 
+<ErrorLabel@Label>:
+    text_size: self.size
+    size_hint_y: .5
+    color: 1, 0, 0, 1
+    text: " "
+<HomeScreen>:
+    name: "Home"
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            padding: 10
+            spacing: 10
+            size_hint_y: None
+            height: '100dp'
+            Label:
+                text: "Amity Ramapriya Apartment Finances"
+                font_size: 30
+                halign: 'center'
+        GridLayout:
+            rows: 5
+            padding: 10
+            spacing: 10
+            BoxLayout:
+                spacing: 10
+                CustomButton:
+                    text: "Add Resident"
+                    on_press:
+                        root.manager.current = 'addres'
+                CustomButton:
+                    text: "View Residents"
+                CustomButton:
+                    text: "Add Payment"
+                CustomButton:
+                    text: "Add Income"
+            BoxLayout:
+                spacing: 10
+                CustomButton:
+                    text: "Add Resident"
+                CustomButton:
+                    text: "View Residents"
+                CustomButton:
+                    text: "Add Payment"
+                CustomButton:
+                    text: "Add Income"
+            BoxLayout:
+                spacing: 10
+                CustomButton:
+                    text: "Add Resident"
+                CustomButton:
+                    text: "View Residents"
+                CustomButton:
+                    text: "Add Payment"
+                CustomButton:
+                    text: "Add Income"
+                   
+<AddResidentScreen>:
+    nameRes: resname
+    phoneNo: resphno
+    blockNo: blockNo
+    flatNo: flatNo
+    balance: balance
+    errorname: errorname
+    errorphno: errorphno
+    errorblockno: errorblockno
+    errorflatno: errorflatno
+    errorbalance: errorbalance
+    name: "addres"
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'  
+            size_hint_y: 0.1
+            padding: 10
+            spacing: 10
+            Button:
+                text: "Back"
+                on_press:
+                    root.reset_errors()
+                    root.reset_text_input()
+                    root.manager.current = "Home"
+                size_hint_x: .1
+            Label:
+                text: "Add Resident"
+                font_size: 25
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 30
+            padding: 40
+            BoxLayout:
+                orientation: 'horizontal'
+                FormLabel:
+                    text: "Name"
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: 2
+                    TextInput:
+                        id: resname
+                        multiline: False
+                    ErrorLabel:
+                        id: errorname
+            BoxLayout:
+                orientation: 'horizontal'
+                valign: 'middle'
+                FormLabel:
+                    text: "Phone Number"
+                BoxLayout:
+                    orientation: 'vertical'
+                    spacing: 2
+                    TextInput:
+                        id: resphno
+                        multiline: False
+                    ErrorLabel:
+                        id: errorphno
+            BoxLayout:
+                orientation: 'horizontal'
+                FormLabel:
+                    text: "Block"
+                BoxLayout:
+                    orientation: 'vertical' 
+                    TextInput:
+                        id: blockNo
+                        multiline: False
+                    ErrorLabel:
+                        id: errorblockno
+            BoxLayout:
+                orientation: 'horizontal'
+                FormLabel:
+                    text: "Flat Number"
+                BoxLayout:
+                    orientation: 'vertical'
+                    TextInput:
+                        id: flatNo
+                        multiline: False
+                    ErrorLabel:
+                        id: errorflatno
+            BoxLayout:
+                orientation: 'horizontal'
+                FormLabel:
+                    text: "Account Balance"
+                BoxLayout:
+                    orientation: 'vertical'
+                    TextInput:
+                        id: balance
+                        multiline: False
+                    ErrorLabel:
+                        id: errorbalance
+            Button:
+                text: "Submit" 
+                on_press:
+                    root.submit()

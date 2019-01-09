@@ -48,11 +48,11 @@
 		}
 		//echo $latest;
 		if($cur == 12){
-			echo "Entered";
+			//echo "Entered";
 			$valuetoadd = $latest + $am;
-			echo "LAtest".$latest;
+			//echo "LAtest".$latest;
 			$qu = "UPDATE resident_income_".$year." SET `$cur` = ".$valuetoadd." WHERE FlatNo = '$flatno'";
-			echo "valuetoadd:".$valuetoadd;
+			//echo "valuetoadd:".$valuetoadd;
 			$res = mysqli_query($con, $qu);
 			header("Location: homepage.php");
 		}
@@ -93,5 +93,5 @@
 		}
 		}
 	}
-	//header("location: homepage.php");
+	header("location: homepage.php");
 ?>

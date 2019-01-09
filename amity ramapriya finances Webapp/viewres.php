@@ -1,10 +1,3 @@
-<?php
-	session_start();
-	$con = mysqli_connect('localhost', 'root', 'achar');
-	mysqli_select_db($con, 'amity ramapriya details');
-	$s = "SELECT *from resident_details";
-	$result = mysqli_query($con, $s);
-?>
 <!DOCTYPE html>
 <html>
 <head>
