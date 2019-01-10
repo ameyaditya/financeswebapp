@@ -9,6 +9,35 @@
     size_hint_y: .5
     color: 1, 0, 0, 1
     text: " "
+<FailRegisterPopup>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Registeration Status"
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Resident already exists"
+        Button:
+            size_hint_y: None
+            height: "30dp"
+            text: "Ok"
+            on_press: 
+                root.dismiss()
+<SuccessRegisterPopup>:
+    size_hint: .5, .5
+    auto_dismiss: False
+    title: "Registeration Status"
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Resident Registered Successfully"
+        Button:
+            text: "Done"
+            size_hint_y: None
+            height: "30dp"
+            on_press:
+                root.dismiss()
+            
 <HomeScreen>:
     name: "Home"
     BoxLayout:

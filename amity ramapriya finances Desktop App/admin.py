@@ -13,6 +13,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.lang.builder import Builder
 from kivy.properties import ObjectProperty
+from kivy.uix.popup import Popup
 conn = sqlite3.connect('Amity Ramapriya Finances.db')
 c = conn.cursor()
 now = datetime.datetime.now()
@@ -57,6 +58,12 @@ def delete_res(flatNo):
 
 #HOME SCREEN DEFINITION
 class HomeScreen(Screen):
+    pass
+#Failed user register popup
+class FailRegisterPopup(Popup):
+    pass
+
+class SuccessRegisterPopup(Popup):
     pass
 
 #ADD RESIDENT DEFINITION
@@ -147,9 +154,17 @@ class AddResidentScreen(Screen):
             rows = c.fetchall()
             if len(rows) == 1:
                 print("Resident Details already exists")
+                popupmsg = FailRegisterPopup()
+                popupmsg.open()
+                
             else:
                 add_new_res(details)
+                successpopup = SuccessRegisterPopup()
+                successpopup.open()
+                self.reset_text_input()
+                self.reset_errors()
                 print("Resident added")
+                #root.manager.current = "Home"
                 
 #DATATTYPES OF BALANCE AND FLAT NO HAVE TO BE CHANGED
             
@@ -158,10 +173,10 @@ class Screen_Manager(ScreenManager):
 app = Screen_Manager()
 app.add_widget(HomeScreen())
 app.add_widget(AddResidentScreen())
-class ARAFinApp(App):
+class ARAFinaApp(App):
     def build(self):
         return app
     
 if __name__ == '__main__':
-    Finances = ARAFinApp()
+    Finances = ARAFinaApp()
     Finances.run()
