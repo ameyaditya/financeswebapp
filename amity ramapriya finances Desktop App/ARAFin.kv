@@ -64,6 +64,9 @@
                         root.manager.current = 'addres'
                 CustomButton:
                     text: "View Residents"
+                    on_press:
+                        root.manager.current = 'viewres'
+                        
                 CustomButton:
                     text: "Add Payment"
                 CustomButton:
@@ -88,7 +91,62 @@
                     text: "Add Payment"
                 CustomButton:
                     text: "Add Income"
-                   
+                    
+<SelectableLabel>:
+    canvas.before:
+        Color:
+            rgba: (.0, 0.9, .1, .3)
+        Rectangle:
+            pos: self.pos
+            size: self.size                    
+<ViewRegisteredResidentsScreen>:
+    name: "viewres"
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10
+        spacing: 10
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.1
+            padding: 10
+            spacing: 10
+            Button:
+                text:"Back"
+                on_press:
+                    root.manager.current = "Home"
+                size_hint_x: .1
+            Label:
+                text: "Resident Details"
+                font_size: 25
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.2
+            Label:
+                text: 'Name'
+                font_size: 15
+            Label:
+                text: 'Phone Number'
+                font_size: 15
+            Label:
+                text: 'Block Number'
+                font_size: 15
+            Label:
+                text: 'Flat Number'
+                font_size: 15
+            Label:
+                text: 'Balance'
+                font_size: 15
+        BoxLayout:
+            RecycleView:
+                viewclass: 'SelectableLabel'
+                data: [{'text': str(x)} for x in root.data_items]
+                RecycleGridLayout:
+                    cols: 5
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                                  
 <AddResidentScreen>:
     nameRes: resname
     phoneNo: resphno
@@ -184,3 +242,4 @@
                 text: "Submit" 
                 on_press:
                     root.submit()
+

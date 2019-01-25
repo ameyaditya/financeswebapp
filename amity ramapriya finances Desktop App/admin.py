@@ -12,8 +12,15 @@ kivy.require("1.10.1")
 from kivy.app import App
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.lang.builder import Builder
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty, BooleanProperty
 from kivy.uix.popup import Popup
+from kivy.uix.listview import ListView
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
+from kivy.uix.recyclegridlayout import RecycleGridLayout
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.label import Label
+
 conn = sqlite3.connect('Amity Ramapriya Finances.db')
 c = conn.cursor()
 now = datetime.datetime.now()
@@ -50,7 +57,13 @@ def update_res(details):
         c.execute("""UPDATE Accounts
                      SET Name = ?, PhoneNo = ?, BlockNo = ?, Balance = ?
                      WHERE FlatNo = ?""", (details['Name'], details['PhoneNo'], details['BlockNo'], details['Balance'], details['FlatNo']))
-
+def view_res():
+    with conn:
+        c.execute("SELECT Name, PhoneNo, BlockNo, FlatNo, Balance FROM Accounts")
+        rows = c.fetchall()
+        print(rows)
+    return rows
+        
 def delete_res(flatNo):
     with conn:
         c.execute("""DELETE FROM Accounts WHERE FlatNo = ?""", (flatNo,))
@@ -165,14 +178,30 @@ class AddResidentScreen(Screen):
                 self.reset_errors()
                 print("Resident added")
                 #root.manager.current = "Home"
-                
 #DATATTYPES OF BALANCE AND FLAT NO HAVE TO BE CHANGED
-            
+class SelectableLabel(Label):
+    ''' Add selection support to the Label '''
+    pass
+    
+class ViewRegisteredResidentsScreen(Screen):
+    data_items = ListProperty([])
+    def __init__(self, **kwargs):
+        super(ViewRegisteredResidentsScreen, self).__init__(**kwargs)
+        self.loaddataintolist()
+    def loaddataintolist(self):
+        rows = view_res()
+        for row in rows:
+            for col in row:
+                self.data_items.append(col)
+        
+        
+               
 class Screen_Manager(ScreenManager):
     pass
 app = Screen_Manager()
 app.add_widget(HomeScreen())
 app.add_widget(AddResidentScreen())
+app.add_widget(ViewRegisteredResidentsScreen(name = "viewres"))
 class ARAFinaApp(App):
     def build(self):
         return app

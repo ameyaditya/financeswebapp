@@ -1,0 +1,55 @@
+.container-fluid{
+	margin-top: 100px;
+}
+.heading{
+	text-align: center;
+	margin:1em;
+}
+a:link, a:visited{
+	text-decoration: none;
+	display: inline-block;
+	color: black;
+}
+.container{
+	margin-top:40px;
+}
+a{
+	text-decoration: none;
+}
+.heading-1{
+	text-align: center;
+	margin-bottom: 30px;
+}
+.heading-2{
+	font-size: 2.5em;
+	//font-family: sans-serif;
+	margin-left: 10px;
+}
+.forms{
+	margin-top: 100px;
+	//border: black solid 1px;
+	padding: 10px;
+	//box-shadow: 5px 10px #D5D5D5;
+}
+.events{
+	min-height: 30vh;
+	background-color: orange;
+	size: 3em;
+	color: white;
+	display: table;
+	text-align: center;
+	transition: all .2s ease-in-out;
+}
+.events:hover{
+	background-color: green;
+	transform: scale(1.1);
+	z-index: 999;
+}
+.events >a{
+	display: table-cell;
+	vertical-align: middle;
+	color: white;
+}
+.edit-modal{
+	margin-top: 5px;
+}

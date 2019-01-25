@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block content %}
+<nav class="navbar navbar-light bg-light justify-content-between">
+  <a class="navbar-brand">Amity Ramapriya Finances</a>
+</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 events">
+				<a href="{{ url_for('add_res') }}">
+					<h1 class="display-4">Add resident</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addinc.php">
+					<h1 class="display-4">Add Income</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addexpense.php">
+					<h1 class="display-4">Add Expenses</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="viewres.php">
+					<h1 class="display-4">View Residents</h1>
+				</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 events">
+				<a href="amount.php">
+					<h1 class="display-4">Amount and Denomination</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="viewinc.php">
+					<h1 class="display-4">View income</h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addexpense.php">
+					<h1 class="display-4"></h1>
+				</a>
+			</div>
+			<div class="col-md-3 events">
+				<a href="addexpense.php">
+					<h1 class="display-4"></h1>
+				</a>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
