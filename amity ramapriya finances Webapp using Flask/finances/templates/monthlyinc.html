@@ -2,17 +2,24 @@
 {% block content %}
 <div class="jumbotron-fluid">
 		<div class="container forms">
-			<h1 class="display-4 text-center heading-1">Add Resident Details</h1>
+			<h1 class="display-4 text-center heading-1">Monthly Income</h1>
 			<form action="" method="POST">
     			{{ form.hidden_tag() }}
+    			
 				<div class="form-group">
-    				{{form.ResidentName.label()}}
-    				{{form.ResidentName(class="form-control")}}
+    				{{form.CustomerName.label()}}
+    				{{form.CustomerName(class="form-control")}}
 				</div>
+				<div class="form-group">
+    				{{form.AccountType.label()}}
+    				{{form.AccountType(class = "form-control custom-select")}}	
+				</div>
+				{% if form.AccountType.data == 'Payment'%}
 				<div class="form-group">
 					{{form.BlockNo.label()}}
     				{{form.BlockNo(class="form-control")}} 
 				</div>
+				{%endif%}
 				<div class="form-group">
 					{{form.FlatNo.label()}}
     				{{form.FlatNo(class="form-control")}}

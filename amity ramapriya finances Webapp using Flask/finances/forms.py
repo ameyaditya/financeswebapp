@@ -1,17 +1,35 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, DecimalField
-from wtforms.validators import DataRequired, Length, NumberRange
+from wtforms import StringField, SubmitField, IntegerField, DecimalField, SelectField, BooleanField
+from wtforms.validators import DataRequired, Length, NumberRange, Optional
+from finances import db
+from finances.models import Account
 
-class RegisterResident(FlaskForm):
-    ResidentName = StringField('Enter Resident Name', 
+class RegisterAccount(FlaskForm):
+    CustomerName = StringField('Enter Resident Name', 
                                validators= [DataRequired()])
+    AccountType = SelectField("Enter Account Type", validators=[DataRequired()], choices = [('Resident','Resident'), ('Payment','Payment'), ('Expense', 'Expense'),('Others','Others')])
     BlockNo = StringField('Enter Block Number',
-                          validators= [DataRequired(), Length(min=1, max =1)])
+                          validators= [Length(min=1, max =1), Optional()])
     FlatNo = IntegerField('Enter Flat Number',
-                          validators= [DataRequired(), NumberRange(min = 1, max= 412) ])
+                          validators= [NumberRange(min = 1, max= 412),Optional()])
     PhoneNo = StringField('Enter Phone Number',
                           validators=[DataRequired(), Length(min = 10, max = 10)])
     Balance = DecimalField("Enter Balance in Account", validators=[DataRequired()])
     Submit = SubmitField('Submit')
+
+class MonthlyIncome(FlaskForm):
+    Residents = Account.query.all()
+    resident = {}
+    i = 1
+    for res in Residents:
+        exec('res_{0} = BooleanField("{1}")'.format(str(i), res.flat_no))
+        i += 1
+    Submit = SubmitField('Submit')
+    
+        
+        
+    
+    
+    
     
     
