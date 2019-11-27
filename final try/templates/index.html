@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Amity Ramapriya Finances</title>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<style type="text/css">
+		#main-heading{
+			font-size: 1.9em;
+			margin-top: 30px;
+			text-align: center;
+		}
+		#content-box{
+			height: 200px;
+			background-color: orange;
+			text-align: center;
+			padding-top: 80px;
+			border: 1px solid black;
+		}
+		#content-box:hover{
+			cursor: pointer;
+		}
+		#inner-heading{
+			font-size: 1.5em;
+			text-align: center;
+		}
+		#container-box{
+			margin-top: 30px;
+		}
+	</style>
+</head>
+<body>
+	<h1 class="display-4" id="main-heading">Amity Ramapriya Finances</h1>
+	<div class="container-fluid" id="container-box">
+		<div class="row">
+			<div class="col-3" id="content-box">
+				<h1 class="display-4" id="inner-heading" onclick="window.location.href='addaccount'">Add Account</h1>
+			</div>
+			<div class="col-3" id="content-box">
+				<h1 class="display-4" id="inner-heading" onclick="window.location.href='addincome'">Add Income</h1>
+			</div>
+			<div class="col-3" id="content-box" onclick="window.location.href='addexpenditure'">
+				<h1 class="display-4" id="inner-heading">Add Expenditure</h1>
+			</div>
+			<div class="col-3" id="content-box" onclick="window.location.href='viewaccount'">
+				<h1 class="display-4" id="inner-heading">View Accounts</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3" id="content-box" onclick="window.location.href='viewtransaction'">
+				<h1 class="display-4" id="inner-heading">View Transactions</h1>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

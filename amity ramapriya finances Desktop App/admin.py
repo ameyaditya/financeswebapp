@@ -201,7 +201,7 @@ class Screen_Manager(ScreenManager):
 app = Screen_Manager()
 app.add_widget(HomeScreen())
 app.add_widget(AddResidentScreen())
-app.add_widget(ViewRegisteredResidentsScreen(name = "viewres"))
+#app.add_widget(ViewRegisteredResidentsScreen(name = "viewres"))
 class ARAFinaApp(App):
     def build(self):
         return app

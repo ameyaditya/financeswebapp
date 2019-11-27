@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect
+from flask import render_template, url_for, redirect, request
 from finances import app, db
 from finances.forms import RegisterAccount, MonthlyIncome
 from finances.models import Account
