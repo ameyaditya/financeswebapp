@@ -1,10 +1,12 @@
 <?php
+session_start();
  if(isset($_POST['submit']))
  {
  	$pass = $_POST['pass'];
  	if($pass=="1234")
  	{
  		header("location:homepage.html");
+ 		$_SESSION['session']='123';
  	}
  	else
  	{
@@ -71,7 +73,7 @@
 	<div class="container ">
 		<form method="post">
 			<div class="d-flex justify-content-center justify-align-center">
-				<h2 id="header" style="padding-top: 30px">Welcome, Mr.Amey</h2> 
+				<h2 id="header" style="padding-top: 30px">Welcome, Mr.Jayram</h2> 
 			</div>
 			<br>
 			<div class="d-flex justify-content-center justify-align-center">
