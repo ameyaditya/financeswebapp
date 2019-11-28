@@ -5,7 +5,7 @@ session_start();
  	$pass = $_POST['pass'];
  	if($pass=="1234")
  	{
- 		header("location:homepage.html");
+ 		header("location:homepage.php");
  		$_SESSION['session']='123';
  	}
  	else
