@@ -51,26 +51,43 @@ if(!isset($_SESSION['session']))
 
 	<div  class="container">
 	
-		   <div class="row " style="margin-top: 58px;" >
-            <div class="col-6 d-flex justify-content-center justify-align-center">
+		   <div class="row " style="margin-top: 80px;" >
+            <div class="col-4 d-flex justify-content-center justify-align-center">
 		         <div class="bg-light button" id="selection" onclick="window.location.href='addaccount.php'"> Add Account   </div>
             </div>    
-             <div class="col-6 d-flex justify-content-center justify-align-center">
-		          <div class="bg-light button" id="selection" onclick="window.location.href='addincome.php'"> Add Income</div>
-            </div>     
-		   </div>
-		     <div class="row " style="margin-top: 58px;" >
-            <div class="col-6 d-flex justify-content-center justify-align-center">
+             <div class="col-4 d-flex justify-content-center justify-align-center">
+		          <div class="bg-light button" id="selection" onclick="window.location.href='addincome.php'"> Add Income
+		          </div>
+		     </div> 
+		     <div class="col-4 d-flex justify-content-center justify-align-center">
 		        <div class="bg-light button" id="selection" onclick="window.location.href='addexpenditure.php'" style="padding-top:10px;"> Add Expenditure</div>
-            </div>    
-             <div class="col-6 d-flex justify-content-center justify-align-center">
-		        <div class="bg-light button" id="selection" onclick="window.location.href='viewaccount.php'"> View Accounts</div>
-            </div>     
+            </div>       
+               
 		   </div>
 		     <div class="row " style="margin-top: 58px;" >
-            <div class="col-12 d-flex justify-content-center justify-align-center">
-		         <div class="bg-light button" id="selection" onclick="window.location.href='viewtransaction.php'" style="padding-top:10px;"> View Transactions</div>
+                <div class="col-4 d-flex justify-content-center justify-align-center">
+		       	 <div class="bg-light button" id="selection" onclick="window.location.href='viewaccount.php'"> View Accounts
+		        </div>
+            	</div>   
+            	 <div class="col-4 d-flex justify-content-center justify-align-center">
+		       	 <div class="bg-light button" id="selection" onclick="window.location.href='viewtransaction.php'" style="padding-top:10px;"> View Transactions
+		        </div>
+            	</div>  
+            	 <div class="col-4 d-flex justify-content-center justify-align-center">
+		       	 <div class="bg-light button" id="selection" onclick="window.location.href='viewrecons.php'"> View Recons
+		        </div>
+            	</div>
 		   </div>
+		     <div class="row " style="margin-top: 58px;" >
+	            <div class="col-4 d-flex justify-content-center justify-align-center">
+			         <div class="bg-light button" id="selection" onclick="window.location.href='viewtransaction.php'" style="padding-top:10px;"> View Transactions</div>
+			   </div>
+			    <div class="col-4 d-flex justify-content-center justify-align-center">
+			         <div class="bg-light button" id="selection" onclick="window.location.href='generatereport.php'" style="padding-top:10px;"> Generate Report</div>
+			   </div>
+			    <div class="col-4 d-flex justify-content-center justify-align-center">
+			         <div class="bg-light button" id="selection" onclick="window.location.href='viewduers.php'" > View Duers</div>
+			   </div>
 	</div>
 
 </body>
