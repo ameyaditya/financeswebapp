@@ -5,7 +5,4 @@
 	if (!$connection) {
 		die("Not Connected to Database");
 	}
-
-
-
  ?>

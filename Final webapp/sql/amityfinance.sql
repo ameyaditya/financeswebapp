@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2019 at 05:53 AM
+-- Generation Time: Nov 28, 2019 at 09:42 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 7.2.5
 
@@ -37,6 +37,13 @@ CREATE TABLE `accounts` (
   `Type_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `accounts`
+--
+
+INSERT INTO `accounts` (`Account_no`, `Name`, `Init_date`, `Balance`, `Details_ID`, `Type_ID`) VALUES
+('ARAMAIN1', 'Main Account', '2019-11-28 00:00:00', 100000, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +54,16 @@ CREATE TABLE `account_type` (
   `Type_ID` int(11) NOT NULL,
   `Type_name` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `account_type`
+--
+
+INSERT INTO `account_type` (`Type_ID`, `Type_name`) VALUES
+(1, 'Main'),
+(2, 'Resident'),
+(3, 'Expense'),
+(4, 'Payment');
 
 -- --------------------------------------------------------
 
@@ -60,6 +77,15 @@ CREATE TABLE `admin` (
   `Password` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`Admin_ID`, `Username`, `Password`) VALUES
+(1, 'Amey', '12345'),
+(2, 'Kalpaj', '23456'),
+(3, 'Adithya', '34567');
+
 -- --------------------------------------------------------
 
 --
@@ -68,8 +94,33 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `category` (
   `Category_ID` int(11) NOT NULL,
-  `Category_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL
+  `Category_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`Category_ID`, `Category_name`, `Type`) VALUES
+(1, 'Income - Resident Share', 'Income'),
+(2, 'Income - Others', 'Income'),
+(3, 'Payment - Garden Maintenance', 'Payment'),
+(4, 'Payment - Generator AMC', 'Payment'),
+(5, 'Payment - Security Guard', 'Payment'),
+(6, 'Payment - House Keeping', 'Payment'),
+(7, 'Payment - Water Charges', 'Payment'),
+(8, 'Payment - Swimming Pool Maintenance', 'Payment'),
+(9, 'Payment - Garbage', 'Payment'),
+(10, 'Payment - Common Area Electricity', 'Payment'),
+(11, 'Expense - Cleaning and Electrical Materials', 'Expense'),
+(12, 'Expense - Generator Diesel', 'Expense'),
+(13, 'Expense - Furniture', 'Expense'),
+(14, 'Expense - Generator Service', 'Expense'),
+(15, 'Expense - Sump and Tank Cleaning', 'Expense'),
+(16, 'Expense - Pest Control', 'Expense'),
+(17, 'Expense - Others', 'Expense'),
+(18, 'Income - Events', 'Income');
 
 -- --------------------------------------------------------
 
@@ -106,6 +157,13 @@ CREATE TABLE `details` (
   `Email` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `details`
+--
+
+INSERT INTO `details` (`Details_ID`, `Name`, `Block`, `Flat_no`, `Phone`, `Email`) VALUES
+(1, 'Main Account', NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -125,6 +183,13 @@ CREATE TABLE `recon` (
   `2` int(11) NOT NULL DEFAULT '0',
   `1` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `recon`
+--
+
+INSERT INTO `recon` (`Recon_ID`, `2000`, `500`, `200`, `100`, `50`, `20`, `10`, `5`, `2`, `1`) VALUES
+(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -211,19 +276,19 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `account_type`
 --
 ALTER TABLE `account_type`
-  MODIFY `Type_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Type_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `Admin_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Admin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `Category_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Category_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `denominations`
@@ -235,13 +300,13 @@ ALTER TABLE `denominations`
 -- AUTO_INCREMENT for table `details`
 --
 ALTER TABLE `details`
-  MODIFY `Details_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Details_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `recon`
 --
 ALTER TABLE `recon`
-  MODIFY `Recon_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Recon_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `transaction`
@@ -267,13 +332,7 @@ ALTER TABLE `transaction`
   ADD CONSTRAINT `transaction_ibfk_1` FOREIGN KEY (`From_acc`) REFERENCES `accounts` (`Account_no`),
   ADD CONSTRAINT `transaction_ibfk_10` FOREIGN KEY (`Deno_ID`) REFERENCES `denominations` (`Denominations_ID`),
   ADD CONSTRAINT `transaction_ibfk_2` FOREIGN KEY (`To_acc`) REFERENCES `accounts` (`Account_no`),
-  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`),
-  ADD CONSTRAINT `transaction_ibfk_4` FOREIGN KEY (`From_acc`) REFERENCES `accounts` (`Account_no`),
-  ADD CONSTRAINT `transaction_ibfk_5` FOREIGN KEY (`To_acc`) REFERENCES `accounts` (`Account_no`),
-  ADD CONSTRAINT `transaction_ibfk_6` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`),
-  ADD CONSTRAINT `transaction_ibfk_7` FOREIGN KEY (`From_acc`) REFERENCES `accounts` (`Account_no`),
-  ADD CONSTRAINT `transaction_ibfk_8` FOREIGN KEY (`To_acc`) REFERENCES `accounts` (`Account_no`),
-  ADD CONSTRAINT `transaction_ibfk_9` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`);
+  ADD CONSTRAINT `transaction_ibfk_3` FOREIGN KEY (`Category_ID`) REFERENCES `category` (`Category_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
