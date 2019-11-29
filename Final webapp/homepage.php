@@ -16,35 +16,68 @@ if(!isset($_SESSION['session']))
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<style type="text/css">
-	
-	#main-header{
-		text-align: center;
-		font-family: sans-serif;
-		font-size: 2.5em;
-		margin-top: 20px;
-	}
 
-	.button{
+	@media screen and (max-width:700px)
+	{
+		.button{
 		margin-bottom: 20px;
-		width:240px;
-		height: 100px;
+		width:130px;
+		height: 80px;
+		font-weight: 2em;
 		border-radius: 15px;
 		box-shadow:5px 5px 10px 5px rgba(0,0,0,.4) ;
-		padding: 30px;
-		font-weight: 1.7em;
 		cursor: pointer;
+		padding: 15px;
+		font-size: 18px;
+		font-family: sans-serif;
+		}
+	
+		.container-fluid
+		{
+			color: white;
+			font-size: 1.5em;
 		}
 
-		#selection{
+		
+	}
+	
+	
+
+	@media screen and (min-width:700px)
+	{
+		.button{
+			margin-bottom: 20px;
+			width:240px;
+			height: 100px;
+			border-radius: 15px;
+			box-shadow:5px 5px 10px 5px rgba(0,0,0,.4) ;
+			padding: 30px;
+			font-weight: 1.7em;
+			cursor: pointer;
+
+			}
+
+			#selection
+			{
 			text-align: center;
 			font-size:  1.7em;
-		}
+			}
+			
+			.container-fluid
+			{
+				color: white;
+				font-size: 2em;
+			}
+			
+	}
+
+	
 </style>
 
 </head>
 <body style="background-color: #f5f5f5;">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<div class="container-fluid" style="color: white;font-size: 2em">Amity Ramapriya Finances
+	<nav class="navbar navbar-expand navbar-dark bg-dark">
+	<div class="container-fluid" >Amity Ramapriya Finances
 	</div>
 	 <button class="btn btn-light navbar-right" onclick="window.location.href='index.php' ">Logout</button>
 	</nav>

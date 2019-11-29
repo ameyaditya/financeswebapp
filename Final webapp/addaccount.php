@@ -18,6 +18,10 @@ if(!isset($_SESSION['session']))
 			margin-top: 30px;
 			text-align: center;
 		}
+		.container
+		{
+/*			box-shadow:5px 5px 10px 5px rgba(0,0,0,.4) ;
+*/		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -55,7 +59,12 @@ if(!isset($_SESSION['session']))
 		});
 	</script>
 </head>
-<body>
+<body style="background-color: #f5f5f5;">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid" style="color: white;font-size: 2em">Amity Ramapriya Finances
+		</div>
+		 <button class="btn btn-light navbar-right" onclick="window.location.href='index.php' ">Logout</button>
+		</nav>
 	<h1 class="display-4" id="main-heading">Add New Account</h1>
 	<div class="container forms">
 		<div class="form-group">
