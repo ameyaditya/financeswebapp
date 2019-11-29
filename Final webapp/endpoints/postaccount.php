@@ -10,7 +10,9 @@
 		$acc_flat_no = $_POST['acc_flat_no'] ?? "NULL";
 		$acc_block_no = $_POST['acc_block_no'] ?? "NULL";
 		$ini_date = date('d-m-Y H:i:s');
-
+		
+		$acc_block_no = strtoupper($acc_block_no);
+		$acc_flat_no = strtoupper($acc_flat_no);
 		$random_num = rand(10000, 99999);
 		$account_no = "ARA".$random_num;
 		$res_rows = mysqli_num_rows(mysqli_query($conn, "SELECT *FROM accounts WHERE Account_no = '$account_no'"));
@@ -28,7 +30,9 @@
 				$accounts_query = "INSERT INTO accounts(Name, Init_date, Balance, Details_ID, Type_ID) VALUES ('$acc_name', '$ini_date' , '$acc_ini_amount', '$details_id', '$acc_type_id')";
 				$accounts_res = mysqli_query($conn, $accounts_query);
 				if($accounts_res){
-					echo "true";
+					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_email, "type" => $acc_type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
+					$json_return_object = json_encode($return_result);
+					print_r($json_return_object);
 				}
 				else{
 					echo "false";
