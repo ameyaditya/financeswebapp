@@ -1,6 +1,6 @@
 <?php
 	include '../config.php';
-	if($_POST['submit']){
+	if(isset($_POST['submit'])){
 		date_default_timezone_set("Asia/Kolkata");
 		$type = $_POST['type'] ?? "NULL";
 		$acc_name = $_POST['acc_name'] ?? "NULL";

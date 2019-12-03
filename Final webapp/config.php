@@ -2,7 +2,7 @@
 	
 	$conn = mysqli_connect('localhost','root','','amityfinance');
 
-	if (!$connection) {
+	if (!$conn) {
 		die("Not Connected to Database");
 	}
  ?>

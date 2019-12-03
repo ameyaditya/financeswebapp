@@ -14,14 +14,12 @@ if(!isset($_SESSION['session']))
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<style type="text/css">
 		#main-heading{
-			font-size: 1.9em;
+			font-size: 2em;
 			margin-top: 30px;
 			text-align: center;
+			font-family: sans-serif;
 		}
-		.container
-		{
-/*			box-shadow:5px 5px 10px 5px rgba(0,0,0,.4) ;
-*/		}
+
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
@@ -41,7 +39,7 @@ if(!isset($_SESSION['session']))
 			$('#submit-account').click(function(){
 				$.ajax({
 					type: "post",
-					url: "/addacc",
+					url: "endpoints/postaccount.php",
 					data:{
 						"type": $('#typeofacc').find(":selected").text(),
 						"name": document.getElementById('name').value,
@@ -63,7 +61,7 @@ if(!isset($_SESSION['session']))
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid" style="color: white;font-size: 2em">Amity Ramapriya Finances
 		</div>
-		 <button class="btn btn-light navbar-right" onclick="window.location.href='index.php' ">Logout</button>
+		 <button class="btn btn-light navbar-right" onclick="window.location.href='homepage.php' ">Home</button>
 		</nav>
 	<h1 class="display-4" id="main-heading">Add New Account</h1>
 	<div class="container forms">
