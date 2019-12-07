@@ -15,11 +15,31 @@
 		$acc_flat_no = strtoupper($acc_flat_no);
 		$random_num = rand(10000, 99999);
 		$account_no = "ARA".$random_num;
-		$res_rows = mysqli_num_rows(mysqli_query($conn, "SELECT *FROM accounts WHERE Account_no = '$account_no'"));
+		$select_account_no_query = "SELECT *FROM accounts WHERE Account_no = '$account_no'";
+		$select_account_no_result = mysqli_query($conn, $select_account_no_query);
+		if($select_account_no_result){
+			$res_rows = mysqli_num_rows($select_account_no_result);
+		}
+		else{
+			$return_json = array("status" => "unsuccessful", "statuscode" => 104, "message" => "Error while retreiving data from accounts table");
+			$json_return_object = json_encode($return_json);
+			print_r($json_return_object);
+			return;
+		}
 		while($res_rows != 0){
 			$random_num = rand(10000, 99999);
 			$account_no = "ARA".$random_num;
-			$res_rows = mysqli_num_rows(mysqli_query($conn, "SELECT *FROM accounts WHERE Account_no = '$account_no'"));
+			$select_account_no_query = "SELECT *FROM accounts WHERE Account_no = '$account_no'";
+			$select_account_no_result = mysqli_query($conn, $select_account_no_query);
+			if($select_account_no_result){
+				$res_rows = mysqli_num_rows($select_account_no_result);
+			}
+			else{
+				$return_json = array("status" => "unsuccessful", "statuscode" => 104, "message" => "Error while retreiving data from accounts table");
+				$json_return_object = json_encode($return_json);
+				print_r($json_return_object);
+				return;
+			}
 		}
 		$acc_type_id = mysqli_fetch_assoc(mysqli_query($conn, "SELECT Type_ID FROM account_type WHERE Type_name = '$type'"))['Type_ID'] ?? "NULL";
 		if($acc_name != "NULL" && $acc_type_id != "NULL" && $type != "NULL"){
@@ -31,22 +51,31 @@
 				$accounts_res = mysqli_query($conn, $accounts_query);
 				if($accounts_res){
 					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_email, "type" => $acc_type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
-					$json_return_object = json_encode($return_result);
+					$return_json = array("status" => "success", "statuscode" => 1, "message" => "Successfully created account", "data" => $return_result);
+					$json_return_object = json_encode($return_json);
 					print_r($json_return_object);
 				}
 				else{
-					echo "false";
+					$return_json = array("status" => "unsuccessful", "statuscode" => 101, "message" => "Error while inserting data into accounts table in database");
+					$json_return_object = json_encode($return_json);
+					print_r($json_return_object);
 				}
 			}
 			else{
-				echo "false";
+				$return_json = array("status" => "unsuccessful", "statuscode" => 101, "message" => "Error while inserting data into details table in database");
+				$json_return_object = json_encode($return_json);
+				print_r($json_return_object);
 			}
 		}
 		else{
-			echo "false";
+			$return_json = array("status" => "unsuccessful", "statuscode" => 102, "message" => "Null values given as input");
+			$json_return_object = json_encode($return_json);
+			print_r($json_return_object);
 		}
 	}
 	else{
-		echo "false";
+		$return_json = array("status" => "unsuccessful", "statuscode" => 103, "message" => "Post request not made");
+		$json_return_object = json_encode($return_json);
+		print_r($json_return_object);
 	}
 ?>
