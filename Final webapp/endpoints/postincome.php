@@ -4,7 +4,7 @@
 		date_default_timezone_set("Asia/Kolkata");
 		$block_flat_no = $_POST['flat_no'] ?? "NULL";
 		$income_category = $_POST['income_category'] ?? "NULL";
-		$mode_of_payment = $_POST['mode_of_payment'] ?? "NULL";
+		$mode_of_payment = $_POST['mode'] ?? "NULL";
 		$amount = $_POST['amount'] ?? "NULL";
 		$comments = $_POST['comments'] ?? "NULL";
 		$two_thousand = $_POST['tt'] ?? "0";
@@ -14,7 +14,7 @@
 		$fifty = $_POST['fi'] ?? "0";
 		$twenty = $_POST['tw'] ?? "0";
 		$ten = $_POST['te'] ?? "0";
-		$five = $_POST['fi'] ?? "0";
+		$five = $_POST['fe'] ?? "0";
 		$two = $_POST['to'] ?? "0";
 		$one = $_POST['on'] ?? "0";
 
