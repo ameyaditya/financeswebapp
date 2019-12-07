@@ -44,79 +44,80 @@ if(!isset($_SESSION['session']))
 
 	</style>
 	<script type="text/javascript">
+		function validate(){
+			if($('#flatno').find(":selected").text() == "Select an option"){
+				alert("Please choose an income account");
+				return false;
+			}
+			if($('#category').find(":selected").text() == "Select an option"){
+				alert("Please choose an income type");
+				return false;
+			}
+			if($('#mode-of-income').find(":selected").text() == "Cash"){
+				var income = document.getElementById('amount').value;
+				var x = 2000*$('#2k').val() + 500*$('#5h').val() + 200*$('#2h').val() + 100*$('#oh').val() + 50*$('#fy').val() + 20*$('#ty').val() + 10*$('#tn').val() + 5*$('#fe').val() + 2*$('#to').val() + 1*$('#oe').val();
+				console.log(x);
+				if(income != x){
+					alert("Enter correct number of Denominations");
+					return false;
+				}
+			}
+			return true;
+		}
+		function addincome(){
+				if(validate()){
+					$.ajax({
+					type:"post",
+					url:"endpoints/postincome.php",
+					data:{
+						"flat_no": $('#flatno').find(":selected").text(),
+						"amount": document.getElementById('amount').value,
+						"mode": $('#mode-of-income').find(":selected").text(),
+						"income_category":$('#category').find(":selected").text(),
+						"tt":document.getElementById('2k').value,
+						"fh":document.getElementById('5h').value,
+						"th":document.getElementById('2h').value,
+						"oh":document.getElementById('oh').value,
+						"fi":document.getElementById('fy').value,
+						"tw":document.getElementById('ty').value,
+						"te":document.getElementById('tn').value,
+						"fe":document.getElementById('fe').value,
+						"to":document.getElementById('to').value,
+						"on":document.getElementById('oe').value,
+						"comments": document.getElementById('comments').value,
+						"submit": "income_submit"
+					},
+					success: function(obj){
+							var data = JSON.parse(obj);
+							if(data['statuscode'] == 1)
+							{
+								$('#mtid').innerHTML=data[transaction_id];
+								$('#mfromacc').innerHTML=data[form_account];
+								$('#mtoacc').innerHTML=data[to_account];
+								$('#mamount').innerHTML=data[amount];
+								$('#mcategory').innerHTML=data[category];
+								$('#mmode').innerHTML=data[mode];
+								$('#mvoucher').innerHTML=data[voucher_no];
+								$('#mcomments').innerHTML=data[comments];
+								$('#exampleModalCenter').modal('show');
+							}
+							else
+							{
+								alert("error");
+							}
+						}
+					});
+				}
+			}
 		$(document).ready(function(){
 			//$('#denominations-box').css('display', 'none');
-			$('#incometype').on('change', function(){
+			$('#mode-of-income').on('change', function(){
 				if(this.value == "Cash"){
 					$('#denominations-box').css('display', 'initial');
 				}
 				else{
 					$('#denominations-box').css('display', 'none');
 				}
-			});
-			$('#submit-income').click(function(){
-				if($('#flatno').find(":selected").text() == "Select an option"){
-					alert("Please choose an income account");
-				}
-				else if($('#incometype').find(":selected").text() == "Select an option"){
-					alert("Please choose an income type");
-				}
-				else if($('#incometype').find(":selected").text() == "Cash"){
-					var income = document.getElementById('amount').value;
-					var x = 2000*$('#2k').val() + 500*$('#5h').val() + 200*$('#2h').val() + 100*$('#oh').val() + 50*$('#fy').val() + 20*$('#ty').val() + 10*$('#tn').val() + 5*$('#fe').val() + 2*$('#to').val() + 1*$('#oe').val();
-					console.log(x);
-					if(income != x){
-						alert("Enter correct number of Denominations");
-					}
-					else{
-						$.ajax({
-						type:"post",
-						url:"endpoint/postincome.php",
-						data:{
-							"flat_no": $('#flatno').find(":selected").text(),
-							"amount": document.getElementById('amount').value,
-							"mode": $('#incometype').find(":selected").text(),
-							"income_category":$('#income').find(":selected").text(),
-							"tt":document.getElementById('2k').value,
-							"fh":document.getElementById('5h').value,
-							"th":document.getElementById('2h').value,
-							"oh":document.getElementById('oh').value,
-							"fi":document.getElementById('fy').value,
-							"tw":document.getElementById('ty').value,
-							"te":document.getElementById('tn').value,
-							"fe":document.getElementById('fe').value,
-							"to":document.getElementById('to').value,
-							"on":document.getElementById('oe').value,
-							"comments": document.getElementById('comments').value
-						},
-						success: function(obj){
-							var data = JSON.parse(obj);
-							if(data[status==1])
-							{
-								
-							$('#mtid').innerHTML=data[transaction_id];
-							$('#mfromacc').innerHTML=data[form_account];
-							$('#mtoacc').innerHTML=data[to_account];
-							$('#mamount').innerHTML=data[amount];
-							$('#mcategory').innerHTML=data[category];
-							$('#mmode').innerHTML=data[mode];
-							$('#mvoucher').innerHTML=data[voucher_no];
-							$('#mcomments').innerHTML=data[comments];
-							 $('#exampleModalCenter').modal('show');
-
-							}
-							else
-							{
-								alert("error");
-							}
-
-						}
-					});
-
-					}
-
-				}
-		
 			});
 		});
 	</script>
@@ -153,14 +154,6 @@ if(!isset($_SESSION['session']))
 			<input type="number" id="amount" name="amount" value="4000" class="form-control" placeholder="Enter income amount" required>
 		</div>
 		<div class="form-group">
-			<label for="incometype">Enter Mode of Income</label>
-			<select class="form-control" id="incometype">
-				<option>Select an option</option>
-				<option>Cash</option>
-				<option>Account</option>
-			</select>
-		</div>
-		<div class="form-group">
 			<label for="flatno">Choose Income Category</label>
 			<select class="form-control" id="category">
 				<option>Select an option</option>
@@ -177,6 +170,14 @@ if(!isset($_SESSION['session']))
 					}
 				}
 				?>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="mode-of-income">Enter Mode of Income</label>
+			<select class="form-control" id="mode-of-income">
+				<option>Select an option</option>
+				<option>Cash</option>
+				<option>Account</option>
 			</select>
 		</div>
 		<div id="denominations-box">
@@ -244,13 +245,10 @@ if(!isset($_SESSION['session']))
 				<option>For the month of December</option>
 			</select>
 		</div>
-		<button class="btn btn-primary" id="submit-income" style="width: 100%">
+		<button class="btn btn-primary" id="submit-income" style="width: 100%" onclick="addincome()">
 			submit
 		</button>
 	</div>
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button> -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

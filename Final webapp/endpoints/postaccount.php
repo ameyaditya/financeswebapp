@@ -49,7 +49,7 @@
 				$accounts_query = "INSERT INTO accounts(Account_no, Name, Init_date, Balance, Details_ID, Type_ID) VALUES ('$account_no', '$acc_name', '$ini_date' , '$acc_ini_amount', '$details_id', '$acc_type_id')";
 				$accounts_res = mysqli_query($conn, $accounts_query);
 				if($accounts_res){
-					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_email, "type" => $type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
+					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_phone, "type" => $type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
 					$return_json = array("status" => "success", "statuscode" => 1, "message" => "Successfully created account", "data" => $return_result);
 					$json_return_object = json_encode($return_json);
 					print_r($json_return_object);

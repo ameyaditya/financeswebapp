@@ -23,6 +23,20 @@ if(!isset($_SESSION['session']))
 			text-align: center;
 			font-family: sans-serif;
 		}
+		#account-no-heading{
+			font-size: 1.4em;
+			font-weight: 400;
+			text-align: center;
+		}
+		.modal-subheadings{
+			font-size: 1em;
+			text-align: left;
+			font-weight: 300;
+			margin-top: 3px;
+		}
+		#account-success-modal-head{
+			text-align: center;
+		}
 		@media screen and (min-width: 700px)
 		{
 			.container-fluid
@@ -44,6 +58,7 @@ if(!isset($_SESSION['session']))
 	<script type="text/javascript">
 		function validate(type, name, email, phone, block_no, flat_no, amount)
 		{
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if(type == "Select an option"){
 				alert("Select an Account type");
 				return false;
@@ -55,6 +70,12 @@ if(!isset($_SESSION['session']))
 			if(amount == ""){
 				alert("Enter initial amount");
 				return false;
+			}
+			if(email != ""){
+				if(!re.test(email)){
+					alert("email format incorrect");
+					return false;
+				}
 			}
 			if(type == "Resident" && (block_no == "Select an option" || flat_no == "")){
 				alert("Choose a Block for resident and enter flat_no");
@@ -99,14 +120,14 @@ if(!isset($_SESSION['session']))
 							console.log(data);
 							if(data['statuscode'] == 1)
 							{
-
-								$('#mname').innerHTML=data['data']['name'];
-								$('#mphone').innerHTML=data['data']['Phone_No'];
-								$('#memail').innerHTML=data['data']['Email_ID'];
-								$('#mtype').innerHTML=data['data']['Account_Type'];
-								$('#mblock').innerHTML=data['data']['Block'];
-								$('#mflat').innerHTML=data['data']['Flat_No'];
-								$('#exampleModalCenter').modal('show');
+								$("#maccno").text(data['data']['account_no']);
+								$('#mname').text(data['data']['name']);
+								$('#mphone').text(data['data']['phone']);
+								$('#memail').text(data['data']['email']);
+								$('#mtype').text(data['data']['type']);
+								$('#mblock').text(data['data']['block_no']);
+								$('#mflat').text(data['data']['flat_no']);
+								$('#account-success-modal').modal('show');
 							}
 							else
 							{
@@ -190,46 +211,37 @@ if(!isset($_SESSION['session']))
 			Submit
 		</button>
 	</div>
-	<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-  Launch demo modal
-</button> -->
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="account-success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Account Added</h5>
+        <h5 class="modal-title" id="account-success-modal-head">Account Added</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="container forms">
-	        <div class="form-group">
-	       		 <input type="text" id="mname" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="memail" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mphone" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mtype" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mblock" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mflat" class="form-control">
-	        </div>	
+        	<div class="row">
+        		<div class="col-1"></div>
+        		<div class="col-10">
+        			<h1 class="display-4" id="account-no-heading">Account No - <span id="maccno"></span> (<span id="mtype"></span>)</h1>
+        		</div>
+        		<div class="col-1"></div>
+        	</div>
+        	<div class="row">
+        		<div class="col-3"><h1 class="display-4 modal-subheadings">Name: </h1></div><div class="col-9"><h1 class="display-4 modal-subheadings"><span id="mname"></span></h1></div>
+        		<div class="col-3"><h1 class="display-4 modal-subheadings">Email ID: </h1></div><div class="col-9"><h1 class="display-4 modal-subheadings"><span id="memail"></span></h1></div>
+        		<div class="col-3"><h1 class="display-4 modal-subheadings">Phone No: </h1></div><div class="col-9"><h1 class="display-4 modal-subheadings"><span id="mphone"></span></h1></div>
+        	</div>
+        	<div class="row" id="flat-no-block-block">
+    			<div class="col-3"><h1 class="display-4 modal-subheadings">Flat-No: </h1></div><div class="col-9"><h1 class="display-4 modal-subheadings"><span id="mblock"></span> - <span id="mflat"></span></h1></div>
+        	</div>
       	</div>
   	</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
