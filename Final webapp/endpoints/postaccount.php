@@ -9,8 +9,7 @@
 		$acc_ini_amount = $_POST['acc_ini_amount'] ?? "0";
 		$acc_flat_no = $_POST['acc_flat_no'] ?? "NULL";
 		$acc_block_no = $_POST['acc_block_no'] ?? "NULL";
-		$ini_date = date('d-m-Y H:i:s');
-		
+		$ini_date = date('Y-m-d H:i:s');
 		$acc_block_no = strtoupper($acc_block_no);
 		$acc_flat_no = strtoupper($acc_flat_no);
 		$random_num = rand(10000, 99999);
@@ -43,14 +42,14 @@
 		}
 		$acc_type_id = mysqli_fetch_assoc(mysqli_query($conn, "SELECT Type_ID FROM account_type WHERE Type_name = '$type'"))['Type_ID'] ?? "NULL";
 		if($acc_name != "NULL" && $acc_type_id != "NULL" && $type != "NULL"){
-			$details_query = "INSERT INTO details(Name, Block, Flat_no, Phone, Email) VALUES('$acc_name', '$acc_block_no', '$acc_flat_no', '$acc_phone', '$acc_email')";
+			$details_query = "INSERT INTO details(Name, Block, Flat_no, Phone, Email) VALUES('$acc_name', NULLIF('$acc_block_no', 'NULL'), NULLIF('$acc_flat_no', 'NULL'), NULLIF('$acc_phone', 'NULL'), NULLIF('$acc_email', 'NULL'))";
 			$details_res = mysqli_query($conn, $details_query);
 			if($details_res){
 				$details_id = mysqli_insert_id($conn);
-				$accounts_query = "INSERT INTO accounts(Name, Init_date, Balance, Details_ID, Type_ID) VALUES ('$acc_name', '$ini_date' , '$acc_ini_amount', '$details_id', '$acc_type_id')";
+				$accounts_query = "INSERT INTO accounts(Account_no, Name, Init_date, Balance, Details_ID, Type_ID) VALUES ('$account_no', '$acc_name', '$ini_date' , '$acc_ini_amount', '$details_id', '$acc_type_id')";
 				$accounts_res = mysqli_query($conn, $accounts_query);
 				if($accounts_res){
-					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_email, "type" => $acc_type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
+					$return_result = array("account_no" => $account_no, "name" => $acc_name, "email" => $acc_email, "phone" => $acc_email, "type" => $type, "flat_no" => $acc_flat_no, "block_no" => $acc_block_no);
 					$return_json = array("status" => "success", "statuscode" => 1, "message" => "Successfully created account", "data" => $return_result);
 					$json_return_object = json_encode($return_json);
 					print_r($json_return_object);

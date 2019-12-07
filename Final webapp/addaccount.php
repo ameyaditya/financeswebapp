@@ -42,6 +42,84 @@ if(!isset($_SESSION['session']))
 	
 	</style>
 	<script type="text/javascript">
+		function validate(type, name, email, phone, block_no, flat_no, amount)
+		{
+			if(type == "Select an option"){
+				alert("Select an Account type");
+				return false;
+			}
+			if(name == ""){
+				alert("Enter a name");
+				return false;
+			}
+			if(amount == ""){
+				alert("Enter initial amount");
+				return false;
+			}
+			if(type == "Resident" && (block_no == "Select an option" || flat_no == "")){
+				alert("Choose a Block for resident and enter flat_no");
+				return false;
+			}
+			return true;
+		}
+		function submitaccount(){
+				var type = $('#typeofacc').find(":selected").text();
+				var name = document.getElementById('name').value;
+				var email = document.getElementById('email').value;
+				var phone = document.getElementById('phone').value;
+				var block_no = $("#block").find(":selected").text();
+				var flat_no =  document.getElementById('flatno').value;
+				var amount = document.getElementById('amount').value;
+				if(validate(type, name, email, phone, block_no, flat_no, amount))
+					{
+						if(email == "")
+							email = "NULL";
+						if(phone == "")
+							phone = "NULL";
+						if(block_no == "Select an option")
+							block_no = "NULL";
+						if(flat_no == "")
+							flat_no = "NULL";
+						$.ajax({
+						type: "post",
+						url: "endpoints/postaccount.php",
+						data:{
+							"type": type,
+							"acc_name": name,
+							"acc_email": email,
+							"acc_phone": phone,
+							"acc_block_no": block_no,
+							"acc_flat_no": flat_no,
+							"acc_ini_amount": amount,
+							"submit": "form-submit"
+						},
+						success: function(obj){
+							console.log(obj);
+							var data = JSON.parse(obj);
+							console.log(data);
+							if(data['statuscode'] == 1)
+							{
+
+								$('#mname').innerHTML=data['data']['name'];
+								$('#mphone').innerHTML=data['data']['Phone_No'];
+								$('#memail').innerHTML=data['data']['Email_ID'];
+								$('#mtype').innerHTML=data['data']['Account_Type'];
+								$('#mblock').innerHTML=data['data']['Block'];
+								$('#mflat').innerHTML=data['data']['Flat_No'];
+								$('#exampleModalCenter').modal('show');
+							}
+							else
+							{
+								var errormessage = data['message'];
+								alert("Error code: "+data['statuscode']+" Error message: "+errormessage);
+							}
+						},
+						error: function(obj){
+							console.log(obj);
+						}
+					});
+				}
+			}
 		$(document).ready(function(){
 			$('#flat-group').css('display', 'none');
 			$('#block-group').css('display', 'none');
@@ -56,62 +134,6 @@ if(!isset($_SESSION['session']))
 					$('#block-group').css('display', 'none');
 				}
 			});
-
-			function validate
-			{
-				var type = $('#typeofacc').find(":selected").text();
-				var name = document.getElementById('name').value;
-				var email = document.getElementById('email').value;
-				var phone = document.getElementById('phone').value;
-				var block_no = $("#block").find(":selected").text();
-				var flat_no =  document.getElementById('flatno').value;
-				var amount = document.getElementById('amount').value;
-				if(type=="" || name=="" || email=="" || phone=="" || block_no==""|| flatno="")
-				{
-					alert("please fill all details");
-					return false;
-				} 
-				else{
-					return true;
-				}
-			}
-
-			$('#submit-account').click(function(){
-				if(validate())
-					{
-						$.ajax({
-						type: "post",
-						url: "endpoints/postaccount.php",
-						data:{
-							"type": $('#typeofacc').find(":selected").text(),
-							"acc_name": document.getElementById('name').value,
-							"acc_email": document.getElementById('email').value,
-							"acc_phone": document.getElementById('phone').value,
-							"acc_block_no": $("#block").find(":selected").text(),
-							"acc_flat_no": document.getElementById('flatno').value,
-							"acc_ini_amount": document.getElementById('amount').value
-						},
-						success: function(obj){
-							var data = JSON.parse(obj);
-							
-							if(data[status==1])
-							{
-							$('#mname').innerHTML=data[name];
-							$('#mphone').innerHTML=data[phone];
-							$('#memail').innerHTML=data[email];
-							$('#mtype').innerHTML=data[type];
-							$('#mblock').innerHTML=data[block_no];
-							$('#mflat').innerHTML=data[flat_no];
-							 $('#exampleModalCenter').modal('show');
-							}
-							else
-							{
-								alert("error");
-							}
-						}
-					});
-				}
-			})
 		});
 	</script>
 </head>
@@ -162,10 +184,10 @@ if(!isset($_SESSION['session']))
 		</div>
 		<div class="form-group">
 			<label for="name">Enter Initial Amount</label>
-			<input type="number" name="amount" id="amount" class="form-control" placeholder="Enter initial Amount" required>
+			<input type="number" name="amount" id="amount" class="form-control" placeholder="Enter initial Amount" value="4000" required>
 		</div>
-		<button class="btn btn-primary" id="submit-account" style="width: 100%">
-			submit
+		<button class="btn btn-primary" id="submit-account" onclick="submitaccount()" style="width: 100%">
+			Submit
 		</button>
 	</div>
 	<!-- Button trigger modal -->
