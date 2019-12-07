@@ -12,18 +12,18 @@
 	else{
 		$generate_query = "";
 		if($resident == "true"){
-			$generate_query = $generate_query."OR Type_name = 'Resident'";
+			$generate_query = $generate_query." OR Type_name = 'Resident'";
 			$block_list = explode("-", $block);
 			$generate_query = $generate_query." AND Block IN ('".join("','", $block_list)."')";
 		}
 		if($payment == "true"){
-			$generate_query = $generate_query."OR Type_name = 'Payment'";
+			$generate_query = $generate_query." OR Type_name = 'Payment'";
 		}
 		if($expense == "true"){
-			$generate_query = $generate_query."OR Type_name = 'Expense'";
+			$generate_query = $generate_query." OR Type_name = 'Expense'";
 		}
 		$get_account_details_query = "SELECT Account_no AS Account_No, accounts.Name AS Name, Balance AS Balance, Type_name AS Account_Type, Block AS Block, Flat_no AS Flat_No, Phone AS Phone_No, Email AS Email_ID FROM accounts NATURAL JOIN account_type NATURAL JOIN details WHERE";
-		$generate_query = ltrim($generate_query, "OR");
+		$generate_query = ltrim($generate_query, " OR");
 		$get_account_details_query = $get_account_details_query." ".$generate_query;
 	}
 	$get_account_details_result = mysqli_query($conn, $get_account_details_query);
