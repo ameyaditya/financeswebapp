@@ -19,6 +19,22 @@ if(!isset($_SESSION['session']))
 			text-align: center;
 			font-family: sans-serif;
 		}
+		@media screen and (min-width: 700px)
+		{
+			.container-fluid
+			{
+				color: white;
+				font-size: 2em;
+			}
+		}
+		@media screen and (max-width: 700px)
+		{
+			.container-fluid
+			{
+				color: white;
+				font-size: 1.5em;
+			}
+		}
 
 	</style>
 	<script type="text/javascript">
@@ -58,11 +74,11 @@ if(!isset($_SESSION['session']))
 	</script>
 </head>
 <body style="background-color: #f5f5f5;">
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-		<div class="container-fluid" style="color: white;font-size: 2em">Amity Ramapriya Finances
+	<nav class="navbar navbar-expand navbar-dark bg-dark">
+		<div class="container-fluid">Amity Ramapriya Finances
 		</div>
 		 <button class="btn btn-light navbar-right" onclick="window.location.href='homepage.php' ">Home</button>
-		</nav>
+	</nav>
 	<h1 class="display-4" id="main-heading">Add New Account</h1>
 	<div class="container forms">
 		<div class="form-group">
