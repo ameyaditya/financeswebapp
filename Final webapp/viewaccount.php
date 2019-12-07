@@ -17,9 +17,26 @@ if(!isset($_SESSION['session']))
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<style type="text/css">
 		#main-heading{
-			font-size: 1.9em;
+			font-size: 2em;
 			margin-top: 30px;
 			text-align: center;
+			font-family: sans-serif;
+		}
+		@media screen and (min-width: 700px)
+		{
+			.container-fluid
+			{
+				color: white;
+				font-size: 2em;
+			}
+		}
+		@media screen and (max-width: 700px)
+		{
+			.container-fluid
+			{
+				color: white;
+				font-size: 1.5em;
+			}
 		}
 		#table-container{
 			margin-top: 40px;
