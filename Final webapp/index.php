@@ -3,11 +3,15 @@ session_start();
  if(isset($_POST['submit']))
  {
  	$pass = $_POST['pass'];
- 	if($pass=="1234")
- 	{
+ 	$user = $_POST['user'];
+ 	include 'config.php';
+ 	$q="SELECT * FROM admin WHERE Username='$user' AND Password ='$pass'";
+ 	$res = mysqli_query($conn,$q);
+ 	if(mysqli_num_rows($res)>0)
+ 	 	{
  		header("location:homepage.php");
  		$_SESSION['session']='123';
- 	}
+ 		}
  	else
  	{
  		header("location:index.php");
@@ -73,13 +77,14 @@ session_start();
 			font-size: 1.5em;
 			font-family: sans-serif;
 			box-shadow:5px 5px 10px 5px rgba(0,0,0,.4) ;
+			margin-bottom: 20px;
 		}
 		#login
 		{
 			border:none;
 			height: 40px;
 			width: 150px;
-			margin-top: 40px;
+			margin-top: 20px;
 			border-radius: 7px;
 			color: white;
 			font-size: 1.5em;
@@ -95,13 +100,17 @@ session_start();
 	</nav>
 	<div class="container ">
 		<form method="post">
-			<div class="d-flex justify-content-center justify-align-center">
-				<h2 id="header" style="padding-top: 30px">Welcome, Mr.Jayram</h2> 
-			</div>
+			<!-- <div class="d-flex justify-content-center justify-align-center">
+				<h2 id="header" style="padding-top: 30px">Welcome</h2> 
+			</div> -->
 			<br>
 			<div class="d-flex justify-content-center justify-align-center">
-				<input type="password" name="pass"  placeholder="Enter your password" id="input">
+				<input type="text" name="user"  placeholder=" Enter Username" id="input" style="margin-top: 30px;">
 			</div>
+			<div class="d-flex justify-content-center justify-align-center">
+				<input type="password" name="pass"  placeholder="Enter password" id="input">
+			</div>
+			
 			<div class="d-flex justify-content-center justify-align-center">
 				<button type="submit" class="bg-dark" id="login" name="submit">Login</button>
 			</div>
