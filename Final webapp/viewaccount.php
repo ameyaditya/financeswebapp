@@ -184,7 +184,12 @@ if(!isset($_SESSION['session']))
 		}
 	</script>
 </head>
-<body>
+<body style="background-color: #f5f5f5">
+	<nav class="navbar navbar-expand navbar-dark bg-dark">
+		<div class="container-fluid">Amity Ramapriya Finances
+		</div>
+		 <button class="btn btn-light navbar-right" onclick="window.location.href='homepage.php' ">Home</button>
+	</nav>
 	<button type="button" class="btn" id="filter-btn" data-toggle="modal" data-target="#view-accounts-filter-modal"></button>
 	<div class="modal fade" id="view-accounts-filter-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
