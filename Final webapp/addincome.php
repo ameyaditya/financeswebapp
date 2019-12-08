@@ -22,8 +22,23 @@ if(!isset($_SESSION['session']))
 			text-align: center;
 			font-family: sans-serif;
 		}
+		#transaction-no-heading{
+			font-size: 1.4em;
+			font-weight: 400;
+			text-align: center;
+		}
+		.amount-subheading{
+			font-size: 1.4em;
+			font-weight: 400;
+		}
 		#denominations-box{
 			display: none;
+		}
+		.modal-subheadings{
+			font-size: 1em;
+			text-align: left;
+			font-weight: 300;
+			margin-top: 3px;
 		}
 		@media screen and (min-width: 700px)
 		{
@@ -53,6 +68,10 @@ if(!isset($_SESSION['session']))
 				alert("Please choose an income type");
 				return false;
 			}
+			if($("#amount").val() == ""){
+				alert("Enter correct amount");
+				return false;
+			}
 			if($('#mode-of-income').find(":selected").text() == "Cash"){
 				var income = document.getElementById('amount').value;
 				var x = 2000*$('#2k').val() + 500*$('#5h').val() + 200*$('#2h').val() + 100*$('#oh').val() + 50*$('#fy').val() + 20*$('#ty').val() + 10*$('#tn').val() + 5*$('#fe').val() + 2*$('#to').val() + 1*$('#oe').val();
@@ -61,6 +80,10 @@ if(!isset($_SESSION['session']))
 					alert("Enter correct number of Denominations");
 					return false;
 				}
+			}
+			if($("#comments").val() == ""){
+				alert("Enter comments");
+				return false;
 			}
 			return true;
 		}
@@ -91,20 +114,24 @@ if(!isset($_SESSION['session']))
 							var data = JSON.parse(obj);
 							if(data['statuscode'] == 1)
 							{
-								$('#mtid').innerHTML=data[transaction_id];
-								$('#mfromacc').innerHTML=data[form_account];
-								$('#mtoacc').innerHTML=data[to_account];
-								$('#mamount').innerHTML=data[amount];
-								$('#mcategory').innerHTML=data[category];
-								$('#mmode').innerHTML=data[mode];
-								$('#mvoucher').innerHTML=data[voucher_no];
-								$('#mcomments').innerHTML=data[comments];
+								$('#mtid').text(data['data']['transaction_id']);
+								$('#mfromacc').text(data['data']['from_account']);
+								$('#mtoacc').text(data['data']['to_account']);
+								$('#mamount').text(data['data']['amount']);
+								$('#mcategory').text(data['data']['category']);
+								$('#mmode').text(data['data']['mode']);
+								$('#mvoucher').text(data['data']['voucher_no']);
+								$('#mcomments').text(data['data']['comments']);
 								$('#exampleModalCenter').modal('show');
 							}
 							else
 							{
-								alert("error");
+								var errormessage = data['message'];
+								alert("Error code: "+data['statuscode']+" Error message: "+errormessage);
 							}
+						},
+						error: function(obj){
+							console.log(obj);
 						}
 					});
 				}
@@ -229,21 +256,7 @@ if(!isset($_SESSION['session']))
 		</div>
 		<div class="form-group">
 			<label for="comments">Enter Comments</label>
-			<select class="form-control" id="comments">
-				<option>Choose an Option</option>
-				<option>For the month of January</option>
-				<option>For the month of February</option>
-				<option>For the month of March</option>
-				<option>For the month of April</option>
-				<option>For the month of May</option>
-				<option>For the month of June</option>
-				<option>For the month of July</option>
-				<option>For the month of August</option>
-				<option>For the month of September</option>
-				<option>For the month of October</option>
-				<option>For the month of November</option>
-				<option>For the month of December</option>
-			</select>
+			<input type="text" id="comments" name="comments" value="For the month of" class="form-control" placeholder="Enter comments" required>
 		</div>
 		<button class="btn btn-primary" id="submit-income" style="width: 100%" onclick="addincome()">
 			submit
@@ -260,7 +273,68 @@ if(!isset($_SESSION['session']))
       </div>
       <div class="modal-body">
         <div class="container forms">
-        	<div class="form-group">
+        	<div class="row">
+        		<div class="col-1"></div>
+        		<div class="col-10">
+        			<h1 class="display-4" id="transaction-no-heading">Transaction ID - <span id="mtid"></span></h1>
+        		</div>
+        		<div class="col-1"></div>
+        	</div>
+        	<div class="row">
+        		<div class="col-2"><h1 class="display-4 modal-subheadings">From: </h1></div><div class="col-4"><h1 class="display-4 modal-subheadings"><span id="mfromacc"></span></h1></div>
+        		<div class="col-2"><h1 class="display-4 modal-subheadings">To: </h1></div><div class="col-4"><h1 class="display-4 modal-subheadings"><span id="mtoacc"></span></h1></div>
+        	</div>
+        	<div class="row">
+        		<div class="col-2">
+        			<h1 class="display-4 modal-subheadings">
+        				Mode:  
+        			</h1>
+        		</div>
+        		<div class="col-4">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mmode"></span>
+        			</h1>
+        		</div>
+
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Voucher No: 
+        			</h1>
+        		</div>
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mvoucher"></span>
+        			</h1>
+        		</div>
+
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Itinerary: 
+        			</h1>
+        		</div>
+        		<div class="col-9">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mcategory"></span>
+        			</h1>
+        		</div>
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Comments: 
+        			</h1>
+        		</div>
+        		<div class="col-9">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mcomments"></span>
+        			</h1>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="col-3">
+        			<h1 class="display-4 amount-subheading">Amount: </h1>
+        		</div>
+        		<div class="col-9"><h1 class="display-4 amount-subheading"><span id="mamount"></span></h1></div>
+        	</div>
+        	<!-- <div class="form-group">
 	       		 <input type="text" id="mtid" class="form-control">
 	        </div>	
 	        <div class="form-group">
@@ -283,12 +357,10 @@ if(!isset($_SESSION['session']))
 	        </div>	
 	        <div class="form-group">
 	       		 <input type="text" id="mcomments" class="form-control">
-	        </div>	
+	        </div>	 -->
       	</div>
   	</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

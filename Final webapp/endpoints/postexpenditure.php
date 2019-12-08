@@ -28,7 +28,7 @@
 			return;
 		}
 
-		$date_of_transaction = date('d-m-Y H:i:s');
+		$date_of_transaction = date('Y-m-d H:i:s');
 
 		$year = date("Y");
 		$voucher_no_query = "SELECT Voucher_no FROM transaction WHERE Transaction_ID = (SELECT MAX(t1.Transaction_ID) FROM transaction t1) AND Voucher_no LIKE '$year%'";
@@ -110,11 +110,11 @@
 
 		$from_account_no = "ARAMAIN1";
 
-		$insert_transaction_query = "INSERT INTO transaction(From_acc, To_acc, Date_of_transaction, Category_ID, Mode_of_payment, Deno_ID, Voucher_no, Amount, Comments) VALUES('$from_account_no', '$to_account_no', '$date_of_transaction', '$expenditure_category_id', '$mode_of_payment' , '$denominations_id', '$voucher_no', '$amount', '$comments')";
+		$insert_transaction_query = "INSERT INTO transaction(From_acc, To_acc, Date_of_transaction, Category_ID, Mode_of_payment, Deno_ID, Voucher_no, Amount, Comments) VALUES('$from_account_no', '$to_account_no', '$date_of_transaction', '$expenditure_category_id', '$mode_of_payment' , NULLIF('$denominations_id', 'NULL'), '$voucher_no', '$amount', '$comments')";
 		$insert_transaction_result = mysqli_query($conn, $insert_transaction_query);
 		if($insert_transaction_result){
 			$transaction_id = mysqli_insert_id($conn);
-			$return_result = array("transaction_id" => $transaction_id, "from_account" => $from_account_no, "to_account" => $to_account_no, "amount" => $amount, "category" => $income_category, "mode" => $mode_of_payment, "voucher_no" => $voucher_no, "comments" => $comments);
+			$return_result = array("transaction_id" => $transaction_id, "from_account" => $from_account_no, "to_account" => $to_account_no, "amount" => $amount, "category" => $expenditure_category, "mode" => $mode_of_payment, "voucher_no" => $voucher_no, "comments" => $comments);
 			$return_json = array("status" => "successful", "statuscode" => 1, "message" => "Transcation logged successfully", "data" => $return_result);
 			$return_json_object = json_encode($return_json);
 			print_r($return_json_object);
