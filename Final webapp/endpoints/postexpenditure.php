@@ -14,7 +14,7 @@
 		$fifty = $_POST['fi'] ?? "0";
 		$twenty = $_POST['tw'] ?? "0";
 		$ten = $_POST['te'] ?? "0";
-		$five = $_POST['fi'] ?? "0";
+		$five = $_POST['fe'] ?? "0";
 		$two = $_POST['to'] ?? "0";
 		$one = $_POST['on'] ?? "0";
 
@@ -37,6 +37,7 @@
 			if(mysqli_num_rows($voucher_no_result) > 0){
 				$latest_voucher_no = explode("-", mysqli_fetch_assoc($voucher_no_result)['Voucher_no'])[1];
 				$voucher_no = (int)$latest_voucher_no + 1;
+				$voucher_no = $year."-".$voucher_no;
 			}
 			else{
 				$voucher_no = $year.'-1';

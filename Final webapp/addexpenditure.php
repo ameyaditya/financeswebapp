@@ -5,17 +5,35 @@ if(!isset($_SESSION['session']))
 	header('location:index.php');
 }
 include 'config.php';
-$select_account_nos_query = "SELECT t.Account_no, t.Name FROM transaction t, account_type at WHERE t.Type_ID = at.Type_ID AND at.Type_name IN ('Expense', 'Payment')";
-$select_account_nos_result = mysqli_query($conn, $select_account_nos_query);
-$account_data = array();
-if($select_account_nos_result){
-	while($row = mysqli_fetch_assoc($select_account_nos_result)){
-		$account_data[] = $row;
+$account_data = "";
+$category_data = "";
+$q="SELECT Account_no , Name FROM accounts WHERE Type_id IN (SELECT Type_id FROM account_type WHERE  Type_name = 'Expense' OR Type_name = 'Payment')";
+$res=mysqli_query($conn,$q);
+if(!($res)){
+	echo "Not able to make connection with database, contact admin";
+	return;
+}
+if(mysqli_num_rows($res) >= 0)
+{
+	while($r=mysqli_fetch_assoc($res))
+	{
+		$account_data .= "<option>".$r['Account_no']."-".$r['Name']."</option>";
+
 	}
 }
-else{
-	echo "Not able to make query to database, contact admin.";
+$q="SELECT Category_name FROM category WHERE Type='Expense' OR Type = 'Payment'";
+$res=mysqli_query($conn,$q);
+if(!($res)){
+	echo "Not able to make connection with database, contact admin";
 	return;
+}
+if(mysqli_num_rows($res)>=0)
+{
+	while($r=mysqli_fetch_assoc($res))
+	{
+		$category_data .= "<option>".$r['Category_name']."</option>";
+
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -34,6 +52,24 @@ else{
 			margin-top: 30px;
 			text-align: center;
 			font-family: sans-serif;
+		}
+		#transaction-no-heading{
+			font-size: 1.4em;
+			font-weight: 400;
+			text-align: center;
+		}
+		.amount-subheading{
+			font-size: 1.4em;
+			font-weight: 400;
+		}
+		#denominations-box{
+			display: none;
+		}
+		.modal-subheadings{
+			font-size: 1em;
+			text-align: left;
+			font-weight: 300;
+			margin-top: 3px;
 		}
 		@media screen and (min-width: 700px)
 		{
@@ -56,6 +92,99 @@ else{
 		}
 	</style>
 	<script type="text/javascript">
+		function validate(){
+			if($('#expaccount').find(":selected").text() == "Choose an Option"){
+				alert("Please choose an expense Account");
+				return false;
+			}
+			if($('#itinerary').find(":selected").text() == "Choose an Option"){
+				alert("Choose an Itinerary");
+				return false;
+			}
+			if($("#amount").val() == ""){
+				alert("Please enter proper amount");
+				return false;
+			}
+			if($('#mode').find(":selected").text() == "Choose an Option"){
+				alert("Select a mode of payment");
+				return false;
+			}
+			if($('#mode').find(":selected").text() == "Cash"){
+				var income = document.getElementById('amount').value;
+				var x = 2000*$('#2k').val() + 500*$('#5h').val() + 200*$('#2h').val() + 100*$('#oh').val() + 50*$('#fy').val() + 20*$('#ty').val() + 10*$('#tn').val() + 5*$('#fe').val() + 2*$('#to').val() + 1*$('#oe').val();
+				if(income != x){
+					alert("Enter correct number of Denominations");
+					return false;
+				}
+			}
+			if($("#comments").val() == ""){
+				alert("Please enter comments");
+				return false;
+			}
+			return true;
+		}
+		function submitexpenditure(){
+			if(validate()){
+				var account_no = $('#expaccount').find(":selected").text();
+				var itinerary = $('#itinerary').find(":selected").text();
+				var amount = $("#amount").val();
+				var mode = $('#mode').find(":selected").text();
+				var comments = $("#comments").val();
+				var tk = document.getElementById('2k').value;
+				var fh = document.getElementById('5h').value;
+				var th = document.getElementById('2h').value;
+				var oh = document.getElementById('oh').value;
+				var fy = document.getElementById('fy').value;
+				var ty = document.getElementById('ty').value;
+				var tn = document.getElementById('tn').value;
+				var fe = document.getElementById('fe').value;
+				var tw = document.getElementById('to').value;
+				var oe = document.getElementById('oe').value;
+				$.ajax({
+					type: "post",
+					url: 'endpoints/postexpenditure.php',
+					data:{
+						"expenditure_account" : account_no,
+						"expenditure_category" : itinerary,
+						"mode_of_payment" : mode,
+						"amount" : amount,
+						"comments" : comments,
+						"tt" : tk,
+						"fh" : fh,
+						"th" : th,
+						"oh" : oh,
+						"fi" : fy,
+						"tw" : ty,
+						"te" : tn,
+						"fe" : fe,
+						"to" : tw,
+						"on" : oe,
+						"submit" : "submit expenditure"
+					},
+					success: function(obj){
+						console.log(obj);
+						var data = JSON.parse(obj);
+						console.log(data);
+						if(data['statuscode'] == 1){
+							$('#mtid').text(data['data']['transaction_id']);
+							$('#mfromacc').text(data['data']['from_account']);
+							$('#mtoacc').text(data['data']['to_account']);
+							$('#mamount').text(data['data']['amount']);
+							$('#mcategory').text(data['data']['category']);
+							$('#mmode').text(data['data']['mode']);
+							$('#mvoucher').text(data['data']['voucher_no']);
+							$('#mcomments').text(data['data']['comments']);
+							$('#exampleModalCenter').modal('show');
+						}
+						else{
+							var errormessage = data['message'];
+							alert("Error code: "+data['statuscode']+" Error message: "+errormessage);
+						}
+					}
+				});
+
+			}
+		}
 		$(document).ready(function(){
 			$('#mode').on('change', function(){
 				if(this.value == "Cash"){
@@ -63,80 +192,6 @@ else{
 				}
 				else{
 					$('#denominations-box').css('display', 'none');
-				}
-			});
-			$('#submit-exp').click(function(){
-				if($('#expaccount').find(":selected").text() == "Choose an Option"){
-					alert("Please choose an expense Account");
-				}
-				else if($('#itinerary').find(":selected").text() == "Choose an Option"){
-					alert("Choose an Itinerary");
-				}
-				else if($('#mode').find(":selected").text() == "Choose an Option"){
-					alert("Select a mode of payment");
-				}
-				else if($('#mode').find(":selected").text() == "Cash"){
-					var income = document.getElementById('amount').value;
-					var x = 2000*$('#2k').val() + 500*$('#5h').val() + 200*$('#2h').val() + 100*$('#oh').val() + 50*$('#fy').val() + 20*$('#ty').val() + 10*$('#tn').val() + 5*$('#fe').val() + 2*$('#to').val() + 1*$('#oe').val();
-					if(income != x){
-						alert("Enter correct number of Denominations");
-					}
-					else{
-						$.ajax({
-						type:"post",
-						url: "/addexp",
-						data:{
-							"name": $('#expaccount').find(":selected").text(),
-							"amount": $("#amount").val(),
-							"itinerary": $('#itinerary').find(":selected").text(),
-							"voucherno": $('#voucherno').val(),
-							"description": $("#description").val(),
-							"mode": $("#mode").find(":selected").text(),
-							"tk":document.getElementById('2k').value,
-							"fh":document.getElementById('5h').value,
-							"th":document.getElementById('2h').value,
-							"oh":document.getElementById('oh').value,
-							"fy":document.getElementById('fy').value,
-							"ty":document.getElementById('ty').value,
-							"tn":document.getElementById('tn').value,
-							"fe":document.getElementById('fe').value,
-							"tw":document.getElementById('to').value,
-							"oe":document.getElementById('oe').value,
-							"comments": document.getElementById('comments').value
-						},
-						success: function(res){
-							console.log(res);
-						}
-					});
-					}
-				}
-				else{
-					$.ajax({
-						type:"post",
-						url: "/addexp",
-						data:{
-							"name": $('#expaccount').find(":selected").text(),
-							"amount": $("#amount").val(),
-							"itinerary": $('#itinerary').find(":selected").text(),
-							"voucherno": $('#voucherno').val(),
-							"description": $("#description").val(),
-							"mode": $("#mode").find(":selected").text(),
-							"tk":document.getElementById('2k').value,
-							"fh":document.getElementById('5h').value,
-							"th":document.getElementById('2h').value,
-							"oh":document.getElementById('oh').value,
-							"fy":document.getElementById('fy').value,
-							"ty":document.getElementById('ty').value,
-							"tn":document.getElementById('tn').value,
-							"fe":document.getElementById('fe').value,
-							"tw":document.getElementById('to').value,
-							"oe":document.getElementById('oe').value,
-							"comments": document.getElementById('comments').value
-						},
-						success: function(res){
-							console.log(res);
-						}
-					});
 				}
 			});	
 		});
@@ -155,17 +210,7 @@ else{
 			<select class="form-control" id="expaccount">
 				<option>Choose an Option</option>
 				<?php
-				include 'config.php';
-				$q="SELECT Account_no , Name FROM accounts WHERE Type_id IN (SELECT Type_id FROM account_type WHERE  Type_name = 'Expense' OR Type_name = 'Payment')";
-				$res=mysqli_query($conn,$q);
-				if(mysqli_num_rows($res)>=0)
-				{
-					while($r=mysqli_fetch_assoc($res))
-					{
-						echo "<option>".$r['Account_no']."-".$r['Name']."</option>";
-
-					}
-				}
+					echo $account_data;
 				?>
 
 			</select>
@@ -175,28 +220,10 @@ else{
 			<select class="form-control" id="itinerary">
 				<option>Choose an Option</option>
 				<?php
-				
-				$q="SELECT Category_name FROM category WHERE Type='Expense' OR Type = 'Payment'";
-				$res=mysqli_query($conn,$q);
-				if(mysqli_num_rows($res)>=0)
-				{
-					while($r=mysqli_fetch_assoc($res))
-					{
-						echo "<option>".$r['Category_name']."</option>";
-
-					}
-				}
+					echo $category_data;
 				?>
 
 			</select>
-		</div>
-		<div class="form-group">
-			<label for="voucherno">Enter Voucher Number</label>
-			<input type="text" name="voucherno" id="voucherno" class="form-control" placeholder="Enter Voucher No" required>
-		</div>
-		<div class="form-group">
-			<label for="description">Enter Description</label>
-			<input type="text" name="description" placeholder="Enter Description" id="description" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="amount">Enter Amount</label>
@@ -261,9 +288,88 @@ else{
 			<label for="comments">Enter Comments</label>
 			<input type="text" name="comments" placeholder="Enter comments" class="form-control" id="comments">
 		</div>
-		<button class="btn btn-primary" id="submit-exp" style="width: 100%">
+		<button class="btn btn-primary" id="submit-exp" style="width: 100%" onclick="submitexpenditure()">
 			submit
 		</button>
 	</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Added Income</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container forms">
+        	<div class="row">
+        		<div class="col-1"></div>
+        		<div class="col-10">
+        			<h1 class="display-4" id="transaction-no-heading">Transaction ID - <span id="mtid"></span></h1>
+        		</div>
+        		<div class="col-1"></div>
+        	</div>
+        	<div class="row">
+        		<div class="col-2"><h1 class="display-4 modal-subheadings">From: </h1></div><div class="col-4"><h1 class="display-4 modal-subheadings"><span id="mfromacc"></span></h1></div>
+        		<div class="col-2"><h1 class="display-4 modal-subheadings">To: </h1></div><div class="col-4"><h1 class="display-4 modal-subheadings"><span id="mtoacc"></span></h1></div>
+        	</div>
+        	<div class="row">
+        		<div class="col-2">
+        			<h1 class="display-4 modal-subheadings">
+        				Mode:  
+        			</h1>
+        		</div>
+        		<div class="col-4">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mmode"></span>
+        			</h1>
+        		</div>
+
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Voucher No: 
+        			</h1>
+        		</div>
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mvoucher"></span>
+        			</h1>
+        		</div>
+
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Itinerary: 
+        			</h1>
+        		</div>
+        		<div class="col-9">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mcategory"></span>
+        			</h1>
+        		</div>
+        		<div class="col-3">
+        			<h1 class="display-4 modal-subheadings">
+        				Comments: 
+        			</h1>
+        		</div>
+        		<div class="col-9">
+        			<h1 class="display-4 modal-subheadings">
+        				<span id="mcomments"></span>
+        			</h1>
+        		</div>
+        	</div>
+        	<div class="row">
+        		<div class="col-3">
+        			<h1 class="display-4 amount-subheading">Amount: </h1>
+        		</div>
+        		<div class="col-9"><h1 class="display-4 amount-subheading"><span id="mamount"></span></h1></div>
+        	</div>
+      	</div>
+  	</div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

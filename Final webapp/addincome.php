@@ -334,30 +334,6 @@ if(!isset($_SESSION['session']))
         		</div>
         		<div class="col-9"><h1 class="display-4 amount-subheading"><span id="mamount"></span></h1></div>
         	</div>
-        	<!-- <div class="form-group">
-	       		 <input type="text" id="mtid" class="form-control">
-	        </div>	
-	        <div class="form-group">
-	       		 <input type="text" id="mfromacc" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mtoacc" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mamount" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mcategory" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mmode" class="form-control">
-	        </div>	
-	         <div class="form-group">
-	       		 <input type="text" id="mvoucher" class="form-control">
-	        </div>	
-	        <div class="form-group">
-	       		 <input type="text" id="mcomments" class="form-control">
-	        </div>	 -->
       	</div>
   	</div>
       <div class="modal-footer">

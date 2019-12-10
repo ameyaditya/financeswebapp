@@ -1,7 +1,7 @@
 <?php
 	include '../config.php';
-	$debit = $_GET['debit'] ?? "false";
-	$credit = $_GET['credit'] ?? "false";
+	$debit = $_GET['debit'] ?? "true";
+	$credit = $_GET['credit'] ?? "true";
 	$mode = $_GET['mode'] ?? "cash-account";
 	$fromdate = $_GET['fromdate'] ?? "2019-12-07";
 	$todate = $_GET['todate'] ?? date("Y-m-d");
@@ -43,7 +43,7 @@
 		return;
 	}
 
-	$base_query = "SELECT Transaction_ID AS Transaction_ID, From_acc AS `From`, To_acc AS `To`, Date_of_transaction AS `Date`, Category_name AS `Category`, Mode_of_payment AS `Mode`, Voucher_no AS `Voucher`, Amount AS `Amount`, Comments AS `Comments` FROM transaction NATURAL JOIN category WHERE From_acc LIKE '$account' OR To_acc LIKE '$account' AND DATE(Date_of_transaction) BETWEEN '$fromdate' AND '$todate'";
+	$base_query = "SELECT Transaction_ID AS Transaction_ID, From_acc AS `From`, To_acc AS `To`, Date_of_transaction AS `Date`, Category_name AS `Category`, Mode_of_payment AS `Mode`, Voucher_no AS `Voucher`, Amount AS `Amount`, Comments AS `Comments` FROM transaction NATURAL JOIN category WHERE (From_acc LIKE '$account' OR To_acc LIKE '$account') AND DATE(Date_of_transaction) BETWEEN '$fromdate' AND '$todate'";
 	$generate_query = "";
 
 	if($debit == "true" && $credit == "false")
@@ -57,11 +57,11 @@
 	elseif(!in_array("cash", $mode_list) && in_array("account", $mode_list))
 		$generate_query .= " AND Mode_of_payment = 'Account'";
 
-	$categories = explode("-", $category_ids);
+	$categories = explode("-", $category);
 	$generate_query .= " AND Category_ID IN ('".join("','", $categories)."')";
-	$order_by_array = array("dot" => "Date_of_transaction", "catname" => "Category_name", => "trid" => "Transaction_ID");
+	$order_by_array = array("dot" => "Date_of_transaction", "catname" => "Category_name","trid" => "Transaction_ID");
 	$orderby_value = $order_by_array[$orderby] ?? $order_by_array['dot'];
-	$generate_query .= "ORDER BY ".$orderby_value." ".$order;	
+	$generate_query .= " ORDER BY ".$orderby_value." ".$order;	
 
 	$get_transaction_details_query = $base_query.$generate_query;
 	$get_transaction_details_result = mysqli_query($conn, $get_transaction_details_query);
