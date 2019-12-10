@@ -84,7 +84,7 @@ if(!isset($_SESSION['session']))
 			});
 			$.ajax({
 				type: "get",
-				url: "/endpoints/getaccounts.php",
+				url: "endpoints/getaccounts.php",
 				data:{
 					"resident": "true",
 					"payment": "true",
@@ -153,7 +153,7 @@ if(!isset($_SESSION['session']))
 				expense = "false";
 			$.ajax({
 				type: "get",
-				url: "/endpoints/getaccounts.php",
+				url: "endpoints/getaccounts.php",
 				data:{
 					"resident" : resident,
 					"payment" : payment,

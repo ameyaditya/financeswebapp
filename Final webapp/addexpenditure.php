@@ -4,6 +4,19 @@ if(!isset($_SESSION['session']))
 {
 	header('location:index.php');
 }
+include 'config.php';
+$select_account_nos_query = "SELECT t.Account_no, t.Name FROM transaction t, account_type at WHERE t.Type_ID = at.Type_ID AND at.Type_name IN ('Expense', 'Payment')";
+$select_account_nos_result = mysqli_query($conn, $select_account_nos_query);
+$account_data = array();
+if($select_account_nos_result){
+	while($row = mysqli_fetch_assoc($select_account_nos_result)){
+		$account_data[] = $row;
+	}
+}
+else{
+	echo "Not able to make query to database, contact admin.";
+	return;
+}
 ?>
 <!DOCTYPE html>
 <html>
