@@ -154,31 +154,40 @@ else{
 			<label for="expaccount">Choose Expenditure Account</label>
 			<select class="form-control" id="expaccount">
 				<option>Choose an Option</option>
-				{% for name,type in data %}
-				<option>{{ type }}-{{ name }}</option>
-				{% endfor %}
+				<?php
+				include 'config.php';
+				$q="SELECT Account_no , Name FROM accounts WHERE Type_id IN (SELECT Type_id FROM account_type WHERE  Type_name = 'Expense' OR Type_name = 'Payment')";
+				$res=mysqli_query($conn,$q);
+				if(mysqli_num_rows($res)>=0)
+				{
+					while($r=mysqli_fetch_assoc($res))
+					{
+						echo "<option>".$r['Account_no']."-".$r['Name']."</option>";
+
+					}
+				}
+				?>
+
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="itinerary">Choose an Itinerary</label>
 			<select class="form-control" id="itinerary">
 				<option>Choose an Option</option>
-				<option>Payment - Garden Maintenance</option>
-				<option>Payment - Lift AMC</option>
-				<option>Payment - Generator AMC</option>
-				<option>Payment - Security Guard</option>
-				<option>Payment - House Keeping</option>
-				<option>Payment - Water Charges</option>
-				<option>Payment - Swimming Pool Maintenance</option>
-				<option>Payment - Garbage</option>
-				<option>Payment - Common Electricity</option>
-				<option>Expense - Cleaning and Electrical Material</option>
-				<option>Expense - Generator Diesel</option>
-				<option>Expense - Furnitures</option>
-				<option>Expense - Generator Service</option>
-				<option>Expense - Sump and Tank Cleaning</option>
-				<option>Expense - Pest Control</option>
-				<option>Expense - Others</option>
+				<?php
+				
+				$q="SELECT Category_name FROM category WHERE Type='Expense' OR Type = 'Payment'";
+				$res=mysqli_query($conn,$q);
+				if(mysqli_num_rows($res)>=0)
+				{
+					while($r=mysqli_fetch_assoc($res))
+					{
+						echo "<option>".$r['Category_name']."</option>";
+
+					}
+				}
+				?>
+
 			</select>
 		</div>
 		<div class="form-group">
