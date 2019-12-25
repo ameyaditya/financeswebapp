@@ -4,6 +4,22 @@ if(!isset($_SESSION['session']))
 {
 	header('location:index.php');
 }
+include 'config.php';
+$category_data = "";
+$q="SELECT Category_name FROM category";
+$res=mysqli_query($conn,$q);
+if(!($res)){
+	echo "Not able to make connection with database, contact admin";
+	return;
+}
+if(mysqli_num_rows($res)>=0)
+{
+	while($r=mysqli_fetch_assoc($res))
+	{
+		$category_data .= "<option>".$r['Category_name']."</option>";
+
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,6 +98,84 @@ if(!isset($_SESSION['session']))
 		}
 	</style>
 	<script type="text/javascript">
+		function applytransactionfilter(){
+			itinerary = $("#itinerary").find(":selected").val();
+			orderby = $("#order").find(":selected").val();
+			order = $("input[name=asdsoption]:checked").val();
+			account_no = $("#accountno").val();
+			fromdate = $("#fromdate").val();
+			todate = $("#todate").val();
+			if($("#transaction-debit").is(':checked'))
+				debit = "true";
+			else
+				debit = "false";
+			if($("#transaction-credit").is(":checked"))
+				credit = "true";
+			else
+				credit = "false";
+			mode = "";
+			if($("#transaction-cash").is(":checked") || $("#transaction-account").is(":checked")){
+				if($("#transaction-cash").is(":checked"))
+					mode += "cash";
+				if($("#transaction-account").is(":checked")){
+					if(mode.length > 0)
+						mode += "-account";
+					else
+						mode += "account";
+				}
+			}
+			dataobject = {};
+			dataobject['debit'] = debit;
+			dataobject['credit'] = credit;
+			dataobject['mode'] = mode;
+			if(Date.parse(fromdate) && Date.parse(todate)){
+				dataobject['fromdate'] = fromdate;
+				dataobject['todate'] = todate;
+			}
+			if(itinerary != "Choose an Option")
+				dataobject['category'] = itinerary;
+			if(orderby = "Date of Transaction")
+				dataobject['orderby'] = "dot";
+			else if(orderby = "Category")
+				dataobject['orderby'] = "catname";
+			else
+				dataobject['orderby'] = "trid";
+			dataobject['order'] = order;
+			if(account_no.length > 2){
+				dataobject['account'] = account_no;
+			}
+			console.log(dataobject);
+			$.ajax({
+				type : "get",
+				url : "endpoints/gettransactions.php",
+				data : dataobject,
+				success : function(obj){
+					var html_data = "";
+					console.log(obj);
+					var data = JSON.parse(obj);
+					if(data['statuscode'] == 1){
+						for (var i = 0; i < data['data'].length; i++){
+							html_data += "<tr>";
+							html_data += "<td>"+data['data'][i]['Transaction_ID']+"</td>";
+							html_data += "<td>"+data['data'][i]['Date']+"</td>";
+							html_data += "<td>"+data['data'][i]['Category']+"</td>";
+							html_data += "<td>"+data['data'][i]['From']+"</td>";
+							html_data += "<td>"+data['data'][i]['To']+"</td>";
+							html_data += "<td>"+data['data'][i]['Mode']+"</td>";
+							html_data += "<td>"+data['data'][i]['Amount']+"</td>";
+							html_data += "<td>"+data['data'][i]['Voucher']+"</td>";
+							html_data += "<td>"+data['data'][i]['Comments']+"</td>";
+							html_data += "</tr>";
+						}
+						document.getElementById('transaction-details-body').innerHTML = html_data;
+						$("#view-transactions-filter-modal").modal('hide');
+					}
+					else{
+
+					}
+				} 
+			})
+		}
 		$(document).ready(function(){
 			$('#fiternary').on('change', function(){
 				if(this.value == "Maintainance Amount")
@@ -162,6 +256,47 @@ if(!isset($_SESSION['session']))
 							Account
 							</label>
 						</div>
+					</div>
+					<h1 class="display-4 filter-subheadings">Date range</h1>
+					<div class="container">
+						<div class="row">
+							<div class="col-6 form-check">
+								<input type="date" name="fromdate" class="form-control" id="fromdate" max= <?php echo '"'.date("Y-m-d").'"'; ?>>
+							</div>
+							<div class="col-6">
+								<input type="date" name="todate" class="form-control" id="todate" max= <?php echo '"'.date("Y-m-d").'"'; ?>>
+							</div>
+						</div>
+					</div>
+					<label for="itinerary">Itinerary</label>
+					<select class="form-control" id="itinerary">
+						<option>Choose an Option</option>
+						<?php
+							echo $category_data;
+						?>
+					</select>
+					<h1 class="display-4 filter-subheadings">Order by</h1>
+					<div class="container">
+						<select class="form-control">
+							<option>Date of Transaction</option>
+							<option>Category</option>
+							<option>Transaction ID</option>
+						</select>
+					</div>
+					<h1 class="display-4 filter-subheadings">ascending/Descending</h1>
+					<div class="container">
+						 <div class="form-check form-check-inline">
+						 	<input type="radio" name="asdsoption" class="form-check-input" id="asce" checked value="ASC">
+						 	<label class="form-check-label" for="asce">Ascending</label>
+						 </div>
+						 <div class="form-check form-check-inline">
+						 	<input type="radio" name="asdsoption" class="form-check-input" id="desc" value="DESC">
+						 	<label class="form-check-label" for="desc">Descending</label>
+						 </div>
+					</div>
+					<div class="container">
+						<label for="accountno">Account No</label>
+						<input type="text" name="accountno" id="accountno" class="form-control">
 					</div>
 				</div>
 				<div class="modal-footer">

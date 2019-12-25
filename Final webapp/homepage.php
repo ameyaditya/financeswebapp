@@ -116,8 +116,11 @@ if(!isset($_SESSION['session']))
 			    <div class="col-4 d-flex justify-content-center justify-align-right">
 			         <div class="bg-light button" id="selection" onclick="window.location.href='generatereport.php'" style="padding-top:10px;"> Generate Report</div>
 			   </div>
-			    <div class="col-4 d-flex justify-content-center justify-align-center">
+			   <div class="col-4 d-flex justify-content-center justify-align-center">
 			         <div class="bg-light button" id="selection" onclick="window.location.href='viewduers.php'" > View Duers</div>
+			   </div>
+			   <div class="col-4 d-flex justify-content-center justify-align-center">
+			         <div class="bg-light button" id="selection" onclick="window.location.href='addtoaccount.php'" style="padding-top:10px;"> Transfer to Account</div>
 			   </div>
 	</div>
 

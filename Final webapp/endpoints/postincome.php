@@ -60,7 +60,7 @@
 
 		$block_no = explode("-", $block_flat_no)[0];
 		$flat_no = explode("-", $block_flat_no)[1];
-		$get_from_account_no_query = "SELECT a.Account_no FROM accounts a, details d WHERE d.Details_ID = a.Details_ID AND d.Block = '$block_no' AND d.flat_no = '$flat_no'";
+		$get_from_account_no_query = "SELECT a.Account_no FROM accounts a, details d WHERE d.Details_ID = a.Details_ID AND d.Block = '$block_no' AND d.flat_no = '$flat_no' AND a.deleted = 0";
 		$get_from_account_no_result = mysqli_query($conn, $get_from_account_no_query);
 		if($get_from_account_no_result){
 			if(mysqli_num_rows($get_from_account_no_result) > 0){
@@ -99,7 +99,20 @@
 			print_r($json_return_object);
 			return;
 		}
+		if($income_category != "Income - Resident Share"){
+			$update_resident_balance_query = "UPDATE accounts SET Balance = Balance + $amount WHERE Account_no = '$from_account_no'";
+			$update_resident_balance_result = mysqli_query($conn, $update_resident_balance_query);
+			if($update_resident_balance_result){
 
+			}
+			else{
+				$return_json = array("status" => "unsuccessful", "statuscode" => 107, "message" => "Error while updating data in accounts table in database");
+				$json_return_object = json_encode($return_json);
+				print_r($json_return_object);
+				return;
+			}
+
+		}
 		if($mode_of_payment == "Cash"){
 			$denominations_insert_query = "INSERT INTO denominations(`2000`, `500`, `200`, `100`, `50`, `20`, `10`, `5`, `2`, `1`) VALUES('$two_thousand', '$five_hundred', '$two_hundred', '$one_hundred', '$fifty', '$twenty', '$ten', '$five', '$two', '$one')";
 			$denominations_insert_result = mysqli_query($conn, $denominations_insert_query);

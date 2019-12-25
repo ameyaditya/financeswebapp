@@ -17,10 +17,37 @@
 		$category_ids = join("-", $category_ids);
 	}
 	else{
-		echo false;
+		$return_json = array("status" => "unsuccessful", "statuscode" => 104, "message" => "Error while retreiving data from accounts table");
+		$json_return_object = json_encode($return_json);
+		print_r($json_return_object);
 		return;
 	}
-	$category = $_GET['category'] ?? $category_ids;
+	if(isset($_GET['category'])){
+		$category = $_GET['category'];
+		$get_category_id_query = "SELECT Category_ID FROM category WHERE Category_name = '$category'";
+		$get_category_id_result = mysqli_query($conn, $get_category_id_query);
+		if($get_category_id_result){
+			if(mysqli_num_rows($get_category_id_result) > 0){
+				$row = mysqli_fetch_assoc($get_category_id_result)['Category_ID'];
+				$category = $row;
+			}
+			else{
+				$return_json = array("status" => "unsuccessful", "statuscode" => 105, "message" => "Select from category table returned 0 rows");
+				$json_return_object = json_encode($return_json);
+				print_r($json_return_object);
+				return;
+			}
+		}
+		else{
+			$return_json = array("status" => "unsuccessful", "statuscode" => 104, "message" => "Error while retreiving data from accounts table");
+			$json_return_object = json_encode($return_json);
+			print_r($json_return_object);
+			return;
+		}
+	}
+	else{
+		$category = $category_ids;
+	}
 
 	$account = $_GET['account'] ?? "%";
 	$get_main_account_no_query = "SELECT Account_no FROM accounts WHERE Name = 'Main Account'";

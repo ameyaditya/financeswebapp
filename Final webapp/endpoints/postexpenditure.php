@@ -61,7 +61,7 @@
 
 		}
 
-		$get_category_id_query = "SELECT Category_ID FROM category WHERE Category_name = '$expenditure_category' AND Type = 'Payment' OR Type = 'Expense'";
+		$get_category_id_query = "SELECT Category_ID FROM category WHERE Category_name = '$expenditure_category' AND (Type = 'Payment' OR Type = 'Expense' OR Type = 'Internal')";
 		$get_category_id_result = mysqli_query($conn, $get_category_id_query);
 		if($get_category_id_result){
 			if(mysqli_num_rows($get_category_id_result) > 0){
