@@ -42,6 +42,9 @@
 			font-weight: 300;
 			margin-top: 3px;
 		}
+		.form-group label{
+			padding-left: 90px;
+		}
     </style>
     <script type="text/javascript">
     	function validate(){
@@ -73,10 +76,10 @@
 				var oe = document.getElementById('oe').value;
 				$.ajax({
 					type: "post",
-					url: 'endpoints/postexpenditure.php',
+					url: 'endpoints/postbanktransfer.php',
 					data:{
-						"expenditure_account" : "ARAMAIN1-Main_Account",
-						"expenditure_category" : "Internal - Transfer to Bank",
+						"expenditure_account" : "ARAMAIN2-Main_Account",
+						"expenditure_category" : "19",
 						"mode_of_payment" : "Cash",
 						"amount" : amount,
 						"comments" : "Transferring to bank",

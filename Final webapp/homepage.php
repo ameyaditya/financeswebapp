@@ -107,7 +107,7 @@ if(!isset($_SESSION['session']))
 		        </div>
             	</div>  
             	 <div class="col-4 d-flex justify-content-center justify-align-center">
-		       	 <div class="bg-light button" id="selection" onclick="window.location.href='viewrecons.php'"> View Recons
+		       	 <div class="bg-light button" id="selection" onclick="window.location.href='viewrecons.php'"> View Summary
 		        </div>
             	</div>
 		   </div>

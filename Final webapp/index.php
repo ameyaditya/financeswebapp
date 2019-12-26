@@ -7,11 +7,38 @@ session_start();
  	include 'config.php';
  	$q="SELECT * FROM admin WHERE Username='$user' AND Password ='$pass'";
  	$res = mysqli_query($conn,$q);
- 	if(mysqli_num_rows($res)>0)
- 	 	{
- 		header("location:homepage.php");
- 		$_SESSION['session']='123';
+ 	if(mysqli_num_rows($res)>0){
+ 		$current_month = date("m");
+ 		$get_month_query = "SELECT Current_month FROM main_details WHERE ID = 1";
+ 		$get_month_result = mysqli_query($conn, $get_month_query);
+ 		if($get_month_result){
+ 			if(mysqli_num_rows($get_month_result) > 0){
+ 				$current_db_month = mysqli_fetch_assoc($get_month_result)['Current_month'];
+ 				if($current_month != $current_db_month){
+ 					$update_current_month_query = "UPDATE main_details SET Current_month = '$current_month' WHERE ID = 1";
+ 					$update_current_month_result = mysqli_query($conn, $update_current_month_query);
+ 					if($update_current_month_result){
+
+ 					}
+ 					else{
+ 						echo "cannot connect to the database";
+ 						return;
+ 					}
+ 				}
+ 				header("location:homepage.php");
+ 				$_SESSION['session']='123'; 				
+ 			}
+ 			else{
+ 				echo "cannot connect to the database";
+				return;
+ 			}
+
  		}
+ 		else{
+ 			echo "cannot connect to the database";
+ 			return;
+ 		}
+ 	}
  	else
  	{
  		header("location:index.php");
