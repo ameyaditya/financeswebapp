@@ -147,7 +147,7 @@ if(mysqli_num_rows($res)>=0)
 			console.log(dataobject);
 			$.ajax({
 				type : "get",
-				url : "endpoints/gettransactions.php",
+				url : "/endpoints/gettransactions.php",
 				data : dataobject,
 				success : function(obj){
 					var html_data = "";
@@ -185,7 +185,7 @@ if(mysqli_num_rows($res)>=0)
 			});
 			$.ajax({
 				type : "get",
-				url : "endpoints/gettransactions.php",
+				url : "/endpoints/gettransactions.php",
 				data:{
 
 				},

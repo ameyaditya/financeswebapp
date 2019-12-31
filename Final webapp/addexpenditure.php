@@ -142,7 +142,7 @@ if(mysqli_num_rows($res)>=0)
 				var oe = document.getElementById('oe').value;
 				$.ajax({
 					type: "post",
-					url: 'endpoints/postexpenditure.php',
+					url: '/endpoints/postexpenditure.php',
 					data:{
 						"expenditure_account" : account_no,
 						"expenditure_category" : itinerary,

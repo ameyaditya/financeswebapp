@@ -26,7 +26,7 @@
 		$generate_query = ltrim($generate_query, " OR");
 		$get_account_details_query = $get_account_details_query." ".$generate_query;
 	}
-	$get_account_details_query .= "ORDER BY Flat_no";
+	$get_account_details_query .= "ORDER BY Block, Flat_no";
 	$get_account_details_result = mysqli_query($conn, $get_account_details_query);
 	if($get_account_details_result){
 		if(mysqli_num_rows($get_account_details_result) > 0){

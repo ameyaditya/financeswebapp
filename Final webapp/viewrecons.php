@@ -81,9 +81,9 @@
 		  <tbody>
 		    <tr>
 		      <td scope="row"><?php echo $data['Maintenance_amount']; ?></th>
-		      <td><?php echo $data['Maintenance_amount']; ?></td>
 		      <td><?php echo $data['Cash_amount']; ?></td>
 		      <td><?php echo $data['Account_amount']; ?></td>
+		      <td><?php echo $data['Total_amount']; ?></td>
 		    </tr>
 		  </tbody>
 		</table>

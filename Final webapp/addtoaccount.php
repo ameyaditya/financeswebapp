@@ -76,7 +76,7 @@
 				var oe = document.getElementById('oe').value;
 				$.ajax({
 					type: "post",
-					url: 'endpoints/postbanktransfer.php',
+					url: '/endpoints/postbanktransfer.php',
 					data:{
 						"expenditure_account" : "ARAMAIN2-Main_Account",
 						"expenditure_category" : "19",

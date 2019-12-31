@@ -91,7 +91,7 @@ if(!isset($_SESSION['session']))
 				if(validate()){
 					$.ajax({
 					type:"post",
-					url:"endpoints/postincome.php",
+					url:"/endpoints/postincome.php",
 					data:{
 						"flat_no": $('#flatno').find(":selected").text(),
 						"amount": document.getElementById('amount').value,
@@ -163,7 +163,7 @@ if(!isset($_SESSION['session']))
 				<option>Select an option</option>
 				<?php
 				include 'config.php';
-				$q="SELECT Block,Flat_no FROM details, accounts WHERE Block is NOT NULL AND Flat_no is NOT NULL AND accounts.Details_ID = details.Details_ID AND accounts.deleted = 0";
+				$q="SELECT Block,Flat_no FROM details, accounts WHERE Block is NOT NULL AND Flat_no is NOT NULL AND accounts.Details_ID = details.Details_ID AND accounts.deleted = 0 ORDER BY Block, Flat_no";
 				$res=mysqli_query($conn,$q);
 				if(mysqli_num_rows($res)>=0)
 				{

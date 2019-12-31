@@ -103,7 +103,7 @@ if(!isset($_SESSION['session']))
 							flat_no = "NULL";
 						$.ajax({
 						type: "post",
-						url: "endpoints/postaccount.php",
+						url: "/endpoints/postaccount.php",
 						data:{
 							"type": type,
 							"acc_name": name,
