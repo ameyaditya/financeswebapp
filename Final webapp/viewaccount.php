@@ -96,6 +96,7 @@ if(!isset($_SESSION['session']))
 					if(data['statuscode'] == 1){
 						for (var i = 0; i < data['data'].length; i++) {
 							html_data += "<tr>";
+							html_data += "<td>"+(i+1)+"</td>";
 							html_data += "<td>"+data['data'][i]['Account_No']+"</td>";
 							html_data += "<td>"+data['data'][i]['Name']+"</td>";
 							html_data += "<td>"+data['data'][i]['Account_Type']+"</td>";
@@ -166,6 +167,7 @@ if(!isset($_SESSION['session']))
 						html_data = "";
 						for (var i = 0; i < data['data'].length; i++) {
 							html_data += "<tr>";
+							html_data += "<td>"+(i+1)+"</td>";
 							html_data += "<td>"+data['data'][i]['Account_No']+"</td>";
 							html_data += "<td>"+data['data'][i]['Name']+"</td>";
 							html_data += "<td>"+data['data'][i]['Account_Type']+"</td>";
@@ -258,6 +260,7 @@ if(!isset($_SESSION['session']))
 		<table class="table">
 			<thead class="thead-light">
 				<tr>
+					<th scope="col">S No.</th>
 					<th scope="col">A/C No.</th>
 					<th scope="col">Name</th>
 					<th scope="col">A/C Type</th>

@@ -1,1 +1,7 @@
-seperate service for vacant house, different maintenance
+seperate service for vacant house, different maintenance.
+cash denomination exchange.
+modify/delete tranaction facility.
+temporary income marked.
+flat no in tranaction page
+
+

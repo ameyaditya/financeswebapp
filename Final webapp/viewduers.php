@@ -5,17 +5,20 @@
 		header('location:index.php');
 	}
 	include 'config.php';
-	$get_duers_details_query = "SELECT Account_no, a.Name AS Name, Balance, Block, Flat_no FROM accounts a, details d, account_type at WHERE a.Details_ID = d.Details_ID AND a.deleted = 0 AND a.Balance > 0 AND a.Type_ID = at.Type_ID AND at.Type_name = 'Resident' ORDER BY Block";
+	$get_duers_details_query = "SELECT Account_no, a.Name AS Name, Balance, Block, Flat_no FROM accounts a, details d, account_type at WHERE a.Details_ID = d.Details_ID AND a.deleted = 0 AND a.Balance > 0 AND a.Type_ID = at.Type_ID AND at.Type_name = 'Resident' ORDER BY Block, Flat_no";
 	$get_duers_details_result = mysqli_query($conn, $get_duers_details_query);
 	$duers_data = "";
 	if($get_duers_details_result){
+		$counter = 1;
 		while($row = mysqli_fetch_assoc($get_duers_details_result)){
 			$duers_data .= "<tr>";
+			$duers_data .= "<td>".$counter."</td>";
 			$duers_data .= "<td>".$row['Account_no']."</td>";
 			$duers_data .= "<td>".$row['Name']."</td>";
 			$duers_data .= "<td>".$row['Block']."-".$row['Flat_no']."</td>";
 			$duers_data .= "<td>".$row['Balance'].'</td>';
 			$duers_data .= "</tr>";
+			$counter += 1;
 		}
 	}
 	else{
@@ -65,6 +68,7 @@
 		<table class="table">
 			<thead char="thead-light"> 
 				<tr>
+					<th scope="col">S No</th>
 					<th scope="col">Account No</th>
 					<th scope="col">Name</th>
 					<th scope="col">Flat No</th>

@@ -7,7 +7,7 @@
 	$account_no = $_GET['account'] ?? "false";
 	
 	if($account_no != "false"){
-		$get_account_details_query = "SELECT a.Account_no AS Account_No, a.Name AS Name, a.Balance AS Balance, at.Type_name AS Account_Type, d.Block AS Block, d.Flat_no AS Flat_No, d.Phone AS Phone_No, d.Email AS Email_ID FROM accounts a, account_type at, details d WHERE a.Type_ID = at.Type_ID AND a.Details_ID = d.Details_ID AND a.Account_no = '$account_no'";
+		$get_account_details_query = "SELECT a.Account_no AS Account_No, a.Name AS Name, a.Balance AS Balance, at.Type_name AS Account_Type, d.Block AS Block, d.Flat_no AS Flat_No, d.Phone AS Phone_No, d.Email AS Email_ID FROM accounts a, account_type at, details d WHERE a.Type_ID = at.Type_ID AND a.Details_ID = d.Details_ID AND a.Account_no = '$account_no' AND deleted=0";
 	}
 	else{
 		$generate_query = "";
@@ -26,6 +26,7 @@
 		$generate_query = ltrim($generate_query, " OR");
 		$get_account_details_query = $get_account_details_query." ".$generate_query;
 	}
+	$get_account_details_query .= "AND deleted = 0 ";
 	$get_account_details_query .= "ORDER BY Block, Flat_no";
 	$get_account_details_result = mysqli_query($conn, $get_account_details_query);
 	if($get_account_details_result){
